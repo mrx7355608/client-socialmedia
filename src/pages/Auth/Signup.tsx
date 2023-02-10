@@ -7,7 +7,7 @@ export default function Signup() {
     const [validationError, setError] = useState(null);
 
     return (
-        <div className="font-sans w-full p-4 bg-transparent">
+        <div className="font-sans w-full p-4 bg-transparent max-w-md">
             <div className="flex items-center w-full gap-x-2">
                 <MyInput
                     name="firstname"
@@ -40,11 +40,11 @@ export default function Signup() {
                 placeholder="Confirm Password"
                 error={validationError}
             />
-            <button className="mt-5 py-2 text-lg w-full rounded-md bg-gray-900 text-white font-medium">
+            <button className="mt-5 py-2 text-md w-full rounded-md bg-gray-900 text-white font-medium">
                 Signup
             </button>
             <hr className="my-5 bg-gray-900" />
-            <button className="mt-2 text-gray-900 flex items-center justify-center py-2 border-2 border-gray-900 text-lg w-full rounded-md bg-transparent font-medium">
+            <button className="mt-2 text-gray-900 flex items-center justify-center py-2 border-2 border-gray-900 text-md w-full rounded-md bg-transparent font-medium">
                 <FaFacebook
                     size="20px"
                     style={{
