@@ -1,7 +1,7 @@
 import React from "react";
 import { FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import MyInput from "../../components/MyInput";
+import MyInput from "@/components/MyInput";
 
 export default function Login() {
     const [validaionError, setValError] = React.useState(null);
