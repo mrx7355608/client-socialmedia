@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
     const [validaionError, setValError] =  React.useState(null)
@@ -11,6 +12,13 @@ export default function Login() {
                 placeholder="Email address"
                 error={validaionError}
             />
+            <MyInput
+                name="password"
+                type="password"
+                placeholder="Password"
+                error={validaionError}
+            />
+            <Link to="signup">Signup</Link>
         </div>
     );
 }
