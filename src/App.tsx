@@ -6,13 +6,15 @@ import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound";
 import Login from "@/pages/Auth/Login";
 import Signup from "@/pages/Auth/Signup";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route />
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<MainLayout />}>
+                    <Route index element={<Home />} />
+                </Route>
                 <Route path="/auth" element={<AuthForms />}>
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
