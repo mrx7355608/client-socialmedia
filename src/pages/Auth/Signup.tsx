@@ -8,18 +8,20 @@ export default function Signup() {
 
     return (
         <div className="font-sans w-full p-4 bg-transparent">
-            <MyInput
-                name="firstname"
-                type="text"
-                placeholder="First name"
-                error={validationError}
-            />
-            <MyInput
-                name="lastname"
-                type="text"
-                placeholder="Last name"
-                error={validationError}
-            />
+            <div className="flex items-center w-full gap-x-2">
+                <MyInput
+                    name="firstname"
+                    type="text"
+                    placeholder="First name"
+                    error={validationError}
+                />
+                <MyInput
+                    name="lastname"
+                    type="text"
+                    placeholder="Last name"
+                    error={validationError}
+                />
+            </div>
             <MyInput
                 name="email"
                 type="email"
