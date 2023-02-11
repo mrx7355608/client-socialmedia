@@ -1,4 +1,4 @@
-import React from "react";
+import Post from "@/components/Post";
 
 export default function Profile() {
     return (
@@ -17,10 +17,16 @@ export default function Profile() {
                 </p>
             </div>
             <div className="py-5">
-                <button className="rounded-full py-3 px-6 bg-gray-300 font-medium text-gray-800 border-1 border-gray-900">
+                <button className="rounded-full py-2 px-6 bg-gray-800 font-medium text-white border-2 border-gray-900">
                     Photos
                 </button>
+                <button className="rounded-full py-2 px-6 bg-gray-800 font-medium text-white border-2 border-gray-900">
+                   Friends 
+                </button>
             </div>
+
+            {/* Posts */}
+            <Post />
         </>
     );
 }
