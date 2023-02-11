@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { RiHome7Line } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { BsSearch } from "react-icons/bs";
 import { FaUserFriends } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import SearchModal from "./SearchModal";
 
 export default function Navbar() {
+    const [showSearch, setshowSearch] = useState(false);
+
     return (
         <>
             <div className="flex items-center justify-center py-4 bg-white shadow-md gap-x-2">
@@ -27,10 +31,23 @@ export default function Navbar() {
                 <button className="flex-1 bg-white py-3 rounded-lg shadow-md">
                     <FaUserFriends size="18px" style={{ margin: "0 auto" }} />
                 </button>
-                <button className="flex-1 bg-white py-3 rounded-lg shadow-md">
+                <button
+                    onClick={openSearchModal}
+                    className="flex-1 bg-white py-3 rounded-lg shadow-md"
+                >
                     <BsSearch size="18px" style={{ margin: "0 auto" }} />
                 </button>
             </div>
+            {showSearch ? (
+                <SearchModal closeSearchModal={closeSearchModal} />
+            ) : null}
         </>
     );
+
+    function openSearchModal() {
+        return setshowSearch(true);
+    }
+    function closeSearchModal() {
+        return setshowSearch(false);
+    }
 }
