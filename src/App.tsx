@@ -9,6 +9,7 @@ import Signup from "@/pages/Auth/Signup";
 import NotFound from "@/pages/NotFound";
 import Profile from "@/pages/User/Profile";
 import Settings from "@/pages/User/Settings";
+import ManageFriends from "@/pages/User/ManageFriends";
 
 function App() {
     return (
@@ -17,7 +18,10 @@ function App() {
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<Home />} />
                     <Route path="profile" element={<Profile />} />
-                    <Route path="settings" element={<Settings />} />
+                    <Route path="settings">
+                        <Route index element={<Settings />} />
+                        <Route path="manage-friends" element={<ManageFriends />} />
+                    </Route>
                 </Route>
                 <Route path="/auth" element={<AuthForms />}>
                     <Route path="login" element={<Login />} />

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Settings() {
     return (
         <div className="flex flex-col gap-y-2 p-4 bg-white h-2/4 p-4 rounded-lg shadow-md">
@@ -5,7 +7,7 @@ export default function Settings() {
                 Settings
             </h3>
             <button className="text-left w-full rounded-md hover:bg-gray-100 p-3 px-4 font-medium bg-white">
-                Manage friends
+                <Link to="manage-friends">Manage friends</Link>
             </button>
             <button className="text-left w-full rounded-md hover:bg-gray-100 p-3 px-4 font-medium bg-white">
                 Update profile picture

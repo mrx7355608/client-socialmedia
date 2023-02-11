@@ -7,7 +7,6 @@ import { RiHome7Line } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { BsSearch } from "react-icons/bs";
 import { HiOutlineUsers } from "react-icons/hi2";
-import { FaUserFriends } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 
 export default function Navbar() {
@@ -27,11 +26,7 @@ export default function Navbar() {
                         onClick={openSearchModal}
                         className="bg-gray-800 text-white rounded-md p-2.5"
                     >
-                        <BsSearch
-                            size="17px"
-                            color="inherit"
-                            style={{ margin: "auto" }}
-                        />
+                        <BsSearch size="17px" color="inherit" style={{ margin: "auto" }} />
                     </button>
                 </div>
             </div>
@@ -51,16 +46,11 @@ export default function Navbar() {
                 </button>
                 <button className="flex-1 bg-white py-3 rounded-lg shadow-md">
                     <Link to="/settings">
-                        <IoSettingsOutline
-                            size="19px"
-                            style={{ margin: "0 auto" }}
-                        />
+                        <IoSettingsOutline size="19px" style={{ margin: "0 auto" }} />
                     </Link>
                 </button>
             </div>
-            {showSearch ? (
-                <SearchModal closeSearchModal={closeSearchModal} />
-            ) : null}
+            {showSearch ? <SearchModal closeSearchModal={closeSearchModal} /> : null}
         </>
     );
 
