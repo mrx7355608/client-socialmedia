@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function AddPost() {
     const [showModal, setShowModal] = useState(false);
+    const [disabled, setDisabled] = useState(true);
 
     return (
         <>
@@ -41,9 +42,21 @@ export default function AddPost() {
                             rows={5}
                             placeholder="Share your thoughts"
                             className="rounded-lg w-full p-2"
+                            onChange={(
+                                e: React.ChangeEvent<HTMLTextAreaElement>
+                            ) => {
+                                checkDisable(e.target.value);
+                            }}
                         ></textarea>
 
-                        <button className="mt-3 rounded-md w-full py-2 bg-gray-900 text-white font-medium">
+                        <button
+                            disabled={disabled}
+                            className={`mt-3 rounded-md w-full py-2 font-medium ${
+                                disabled
+                                    ? "text-gray-300 bg-gray-800"
+                                    : "text-white bg-gray-900"
+                            }`}
+                        >
                             Post
                         </button>
                     </div>
@@ -53,9 +66,14 @@ export default function AddPost() {
     );
 
     function openModal() {
+        setDisabled(true);
         return setShowModal(true);
     }
     function closeModal() {
         return setShowModal(false);
+    }
+    function checkDisable(postBody: string) {
+        if (postBody.trim()) return setDisabled(false);
+        return setDisabled(true);
     }
 }
