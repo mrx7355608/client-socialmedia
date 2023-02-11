@@ -7,7 +7,7 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Auth/Login";
 import Signup from "@/pages/Auth/Signup";
 import NotFound from "@/pages/NotFound";
-import Profile from "@/pages/Profile";
+import Profile from "@/pages/User/Profile";
 
 function App() {
     return (
