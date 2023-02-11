@@ -8,6 +8,7 @@ import Login from "@/pages/Auth/Login";
 import Signup from "@/pages/Auth/Signup";
 import NotFound from "@/pages/NotFound";
 import Profile from "@/pages/User/Profile";
+import Settings from "@/pages/User/Settings";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<Home />} />
                     <Route path="profile" element={<Profile />} />
+                    <Route path="settings" element={<Settings />} />
                 </Route>
                 <Route path="/auth" element={<AuthForms />}>
                     <Route path="login" element={<Login />} />

@@ -50,10 +50,12 @@ export default function Navbar() {
                     <HiOutlineUsers size="19px" style={{ margin: "0 auto" }} />
                 </button>
                 <button className="flex-1 bg-white py-3 rounded-lg shadow-md">
-                    <IoSettingsOutline
-                        size="19px"
-                        style={{ margin: "0 auto" }}
-                    />
+                    <Link to="/settings">
+                        <IoSettingsOutline
+                            size="19px"
+                            style={{ margin: "0 auto" }}
+                        />
+                    </Link>
                 </button>
             </div>
             {showSearch ? (
