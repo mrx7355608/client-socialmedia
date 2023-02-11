@@ -1,6 +1,6 @@
 export default function Post () {
     return (
-        <div className="flex flex-col p-4 rounded-lg shadow-sm bg-white">
+        <div className="flex flex-col p-4 rounded-lg shadow-md bg-white">
             {/* Author */}
             <div className="flex mb-3 gap-x-2 items-center">
                 <img src="/user.png" alt="author" className="w-12 h-12 rounded-full" />
