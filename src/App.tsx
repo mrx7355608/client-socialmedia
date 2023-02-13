@@ -10,6 +10,7 @@ import NotFound from "@/pages/NotFound";
 import Profile from "@/pages/User/Profile";
 import Settings from "@/pages/User/Settings";
 import ManageFriends from "@/pages/User/ManageFriends";
+import PendingRequests from "@/pages/User/PendingRequests";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<Home />} />
                     <Route path="profile" element={<Profile />} />
+                    <Route path="pending-requests" element={<PendingRequests />} />
                     <Route path="settings">
                         <Route index element={<Settings />} />
                         <Route path="manage-friends" element={<ManageFriends />} />
