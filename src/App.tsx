@@ -11,6 +11,7 @@ import Profile from "@/pages/User/Profile";
 import Settings from "@/pages/User/Settings";
 import ManageFriends from "@/pages/User/ManageFriends";
 import PendingRequests from "@/pages/User/PendingRequests";
+import ForgotPassword from "@/pages/Auth/ForgotPassword";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/auth" element={<AuthForms />}>
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
+                    <Route path="forgot-password" element={<ForgotPassword />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
