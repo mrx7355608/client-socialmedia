@@ -1,3 +1,4 @@
+import axiosInstance from "../axiosInstance";
 import { config } from "../../config/config";
 
 interface Response {
@@ -29,6 +30,18 @@ export class UserServices {
         } catch (err: any) {
             if (err.name === "TypeError") return this.sendResponse(false, "No internet connection");
             return this.sendResponse(false, "Something went wrong");
+        }
+    }
+
+    async getApiHealth() {
+        try {
+            const response = await axiosInstance.get("/health-check");
+            if (response.status === 200) {
+                return this.sendResponse(true, null);
+            }
+            return this.sendResponse(false, null);
+        } catch (err) {
+            return this.sendResponse(false, null);
         }
     }
 }
