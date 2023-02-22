@@ -1,25 +1,25 @@
+import React from "react";
+
 export default function MyInput({
     name,
     type,
     placeholder,
-    error,
+    onChangeHandler,
 }: {
     name: string;
     type: string;
     placeholder: string;
-    error: any;
+    onChangeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
     return (
         <div className="flex flex-col items-start justify-center">
             <input
-                className="w-full px-4 py-2 rounded-md bg-transparent border-2 border-gray-900"
+                className="w-full px-4 py-2 rounded-md bg-transparent border-2 border-gray-900 mt-2"
                 name={name}
                 type={type}
                 placeholder={placeholder}
+                onChange={onChangeHandler}
             />
-            <span className="mb-3 font-sm text-red-600 font-medium">
-                {error && error.type === type ? error.message : null}
-            </span>
         </div>
     );
 }
