@@ -1,10 +1,11 @@
 import React, { useContext, createContext, useReducer } from "react";
+import { AuthActions } from "./actions";
 import { authReducer } from "./reducer";
 import { IAuthState, initialAuthState } from "./state";
 
 const AuthContext = createContext<{
     state: IAuthState;
-    dispatch: React.Dispatch<any>;
+    dispatch: React.Dispatch<AuthActions>;
 }>({ state: initialAuthState, dispatch: () => undefined });
 export const useAuth = () => useContext(AuthContext);
 
