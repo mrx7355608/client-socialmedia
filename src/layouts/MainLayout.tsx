@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { UserServices } from "../services/user.services";
 import { useAuth } from "../contexts/auth/context";
 import { apiDown, requestFinishedProcessing, userDataFetched } from "../contexts/auth/reducer";
@@ -9,7 +9,6 @@ import { IUser } from "../contexts/auth/state";
 export default function MainLayout() {
     const { state, dispatch } = useAuth();
     const userServices = new UserServices();
-    const navigateTo = useNavigate();
 
     useEffect(() => {
         // Check if api is running properly or not
@@ -47,7 +46,7 @@ export default function MainLayout() {
     // If the user is not authorized
     // Redirect him to login page
     if (!state.user) {
-        return navigateTo("/auth/login");
+        return <Navigate to="/auth/login" />;
     }
 
     return (
