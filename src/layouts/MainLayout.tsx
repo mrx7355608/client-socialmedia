@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { UserServices } from "../services/user.services";
 import { useAuth } from "../contexts/auth/context";
-import { apiDown, userDataFetched } from "../contexts/auth/reducer";
+import { apiDown, requestFinishedProcessing, userDataFetched } from "../contexts/auth/reducer";
 import { IUser } from "../contexts/auth/state";
 
 export default function MainLayout() {
     const { state, dispatch } = useAuth();
     const userServices = new UserServices();
+    const navigateTo = useNavigate();
 
     useEffect(() => {
         // Check if api is running properly or not
@@ -23,12 +24,14 @@ export default function MainLayout() {
         async function getUserData() {
             const { success, user } = await userServices.getMe();
             if (success) return dispatch(userDataFetched(user as IUser));
+            return dispatch(requestFinishedProcessing());
         }
 
         (async function () {
-            if (await checkApi()) {
-                await getUserData();
-            }
+            // if (await checkApi()) {
+            //     await getUserData();
+            // }
+            await getUserData();
         })();
     }, []);
 
@@ -39,6 +42,12 @@ export default function MainLayout() {
         return (
             <h3 className="font-bold text-red-800 my-auto text-center text-3xl">{state.error}</h3>
         );
+    }
+
+    // If the user is not authorized
+    // Redirect him to login page
+    if (!state.user) {
+        return navigateTo("/auth/login");
     }
 
     return (
