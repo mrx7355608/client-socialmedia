@@ -1,17 +1,16 @@
+import { useAuth } from "../contexts/auth/context";
 import React, { useState } from "react";
 
 export default function AddPost() {
     const [showModal, setShowModal] = useState(false);
     const [disabled, setDisabled] = useState(true);
+    const { state } = useAuth();
 
     return (
         <>
             <div className="p-3 rounded-lg shadow-md flex justify-center items-center bg-white gap-x-2">
                 {/* User Image */}
-                <img
-                    src="/user.png"
-                    className="rounded-full w-9 h-9 bg-black"
-                />
+                <img src={state.user?.profilePicture} className="rounded-full w-9 h-9 bg-black" />
                 {/* Post toggle */}
                 <span
                     onClick={openModal}
@@ -42,9 +41,7 @@ export default function AddPost() {
                             rows={5}
                             placeholder="Share your thoughts"
                             className="rounded-lg w-full p-2"
-                            onChange={(
-                                e: React.ChangeEvent<HTMLTextAreaElement>
-                            ) => {
+                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                                 checkDisable(e.target.value);
                             }}
                         ></textarea>
@@ -52,9 +49,7 @@ export default function AddPost() {
                         <button
                             disabled={disabled}
                             className={`mt-3 rounded-md w-full py-2 font-medium ${
-                                disabled
-                                    ? "text-gray-300 bg-gray-800"
-                                    : "text-white bg-gray-900"
+                                disabled ? "text-gray-300 bg-gray-800" : "text-white bg-gray-900"
                             }`}
                         >
                             Post
