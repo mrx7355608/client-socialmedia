@@ -4,11 +4,17 @@ export enum IAuthActionTypes {
     Logout,
     UserFetched,
     AuthError,
+    RequestFinished,
 }
 
 // Logout action interface
 export interface ILogoutAuth {
     type: IAuthActionTypes.Logout;
+}
+
+// RequestFinished action interface
+export interface IRequestFinished {
+    type: IAuthActionTypes.RequestFinished;
 }
 
 // UserFetched action interface
@@ -27,4 +33,4 @@ export interface IAuthError {
     };
 }
 
-export type AuthActions = ILogoutAuth | IUserFetchedAuth | IAuthError;
+export type AuthActions = ILogoutAuth | IUserFetchedAuth | IAuthError | IRequestFinished;

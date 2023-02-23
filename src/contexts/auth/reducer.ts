@@ -1,4 +1,10 @@
-import { AuthActions, IAuthActionTypes, IAuthError, IUserFetchedAuth } from "./actions";
+import {
+    AuthActions,
+    IAuthActionTypes,
+    IAuthError,
+    IRequestFinished,
+    IUserFetchedAuth,
+} from "./actions";
 import { IAuthState, IUser } from "./state";
 
 export function authReducer(state: IAuthState, action: AuthActions): IAuthState {
@@ -9,6 +15,8 @@ export function authReducer(state: IAuthState, action: AuthActions): IAuthState 
             return { ...state, error: action.payload.error, isLoading: false };
         case IAuthActionTypes.UserFetched:
             return { ...state, user: action.payload.user, isLoading: false };
+        case IAuthActionTypes.RequestFinished:
+            return { ...state, user: null, isLoading: false };
 
         default:
             return state;
@@ -35,5 +43,11 @@ export function apiDown(): IAuthError {
         payload: {
             error: "It seems that server is down",
         },
+    };
+}
+
+export function requestFinishedProcessing(): IRequestFinished {
+    return {
+        type: IAuthActionTypes.RequestFinished,
     };
 }
