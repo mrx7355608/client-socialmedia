@@ -1,4 +1,4 @@
-import { config } from "../../config/config";
+import axiosInstance from "../axiosInstance";
 
 interface ILoginData {
     email: string;
@@ -9,6 +9,7 @@ interface Response {
     message: string | null;
 }
 
+// TODO: error handling in axios
 export class AuthServices {
     private sendResponse(success: boolean, message: string | null): Response {
         return {
@@ -18,32 +19,32 @@ export class AuthServices {
     }
 
     async login(loginData: ILoginData): Promise<Response> {
-        const url = config.apiUrl + "/auth/login";
-        const options: RequestInit = {
-            method: "POST",
-            mode: "cors",
-            credentials: "include",
-            body: JSON.stringify(loginData),
-            headers: {
-                "Content-type": "application/json",
-            },
-        };
-
         try {
-            const response = await fetch(url, options);
-            const result = await response.json();
-            if (!response.ok) {
-                return this.sendResponse(false, result.error);
-            }
+            await axiosInstance.post("/auth/login", loginData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
             return this.sendResponse(true, null);
         } catch (err: any) {
             if (err.name === "TypeError") {
                 return this.sendResponse(false, "No internet connection");
             }
-            return this.sendResponse(false, "An un-expected error occured");
+            return this.sendResponse(false, err.message);
         }
     }
     async signup() {}
     async loginAsGuest() {}
-    async logout() {}
+    async logout() {
+        try {
+            const response = await axiosInstance.post("/auth/logout");
+            console.log(response.data);
+            if (response.status === 200 && response.data.logout === true) {
+                return this.sendResponse(true, null);
+            }
+            return this.sendResponse(false, null);
+        } catch (err: any) {
+            return this.sendResponse(false, "Something went wrong");
+        }
+    }
 }
