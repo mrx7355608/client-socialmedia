@@ -6,7 +6,7 @@ import { IUser } from "@/contexts/auth/state";
 import { Navigate } from "react-router-dom";
 import Spinner from "@/components/Spinner";
 
-export default function useAuthorizeUser() {
+export default function useUserData() {
     const userServices = new UserServices();
     const { state, dispatch } = useAuth();
 
@@ -33,20 +33,4 @@ export default function useAuthorizeUser() {
             await getUserData();
         })();
     }, []);
-
-    if (state.isLoading) {
-        // TODO: create a proper spinner :)
-        return <Spinner />;
-    }
-    if (state.error) {
-        return (
-            <h3 className="font-bold text-red-800 my-auto text-center text-3xl">{state.error}</h3>
-        );
-    }
-
-    // If the user is not authorized
-    // Redirect him to login page
-    if (!state.user) {
-        return <Navigate to="/auth/login" />;
-    }
 }
