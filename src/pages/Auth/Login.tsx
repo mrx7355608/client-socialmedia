@@ -1,12 +1,13 @@
 import React from "react";
 import { FaFacebook } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MyInput from "@/components/MyInput";
 import { AuthServices } from "../../services/auth.services";
 import { BeatLoader } from "react-spinners";
 
 export default function Login() {
     const authServices = new AuthServices();
+    const navigateTo = useNavigate();
     const [error, setError] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(false);
     const [loginData, setLoginData] = React.useState({
@@ -89,5 +90,6 @@ export default function Login() {
             return setTimeout(() => setError(""), 7000);
         }
         // Redirect to homepage on successfull login
+        return navigateTo("/");
     }
 }
