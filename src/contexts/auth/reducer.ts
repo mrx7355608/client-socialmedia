@@ -2,6 +2,7 @@ import {
     AuthActions,
     IAuthActionTypes,
     IAuthError,
+    ILogoutAuth,
     IRequestFinished,
     IUserFetchedAuth,
 } from "./actions";
@@ -24,7 +25,7 @@ export function authReducer(state: IAuthState, action: AuthActions): IAuthState 
 }
 
 // Dispatch functions
-export function logoutUser() {
+export function logoutUser(): ILogoutAuth {
     return {
         type: IAuthActionTypes.Logout,
     };

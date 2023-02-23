@@ -1,9 +1,12 @@
+import { useAuth } from "../../contexts/auth/context";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthServices } from "../../services/auth.services";
+import { logoutUser } from "../../contexts/auth/reducer";
 
 export default function Settings() {
     const authServices = new AuthServices();
     const navigateTo = useNavigate();
+    const { dispatch } = useAuth();
 
     return (
         <div className="flex flex-col gap-y-2 p-4 bg-white h-2/4 p-4 rounded-lg shadow-md">
@@ -21,7 +24,7 @@ export default function Settings() {
                 Remove account
             </button>
             <button
-                onClick={async () => await logoutUser()}
+                onClick={async () => await logout()}
                 className="text-left w-full rounded-md hover:bg-red-100 p-3 px-4 font-medium text-red-700"
             >
                 Logout
@@ -29,10 +32,11 @@ export default function Settings() {
         </div>
     );
 
-    async function logoutUser() {
+    async function logout() {
         const { success, message } = await authServices.logout();
         if (!success && message) return alert(message);
         if (!success) return alert("There was a problem while logging out");
+        dispatch(logoutUser());
         return navigateTo("/auth/login");
     }
 }
