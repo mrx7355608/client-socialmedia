@@ -17,8 +17,12 @@ import ResendVerificationEmail from "@/pages/Auth/ResendVerificationEmail";
 import RemoveAccount from "@/pages/User/RemoveAccount";
 import ChangePassword from "@/pages/User/ChangePassword";
 import UpdateProfilePicture from "@/pages/User/UpdateProfilePicture";
+import useAuthorizeUser from "./hooks/useAuthorizeUser";
 
 function App() {
+    // Checks if user is authorized
+    useAuthorizeUser();
+
     return (
         <Router>
             <Routes>
