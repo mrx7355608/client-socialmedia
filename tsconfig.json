@@ -20,6 +20,9 @@
         "paths": {
             "@/components/*": ["./components/*"],
             "@/layouts/*": ["./layouts/*"],
+            "@/services/*": ["./services/*"],
+            "@/hooks/*": ["./hooks/*"],
+            "@/contexts/*": ["./contexts/*"],
             "@/pages/*": ["./pages/*"]
         }
     },
