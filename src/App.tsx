@@ -20,6 +20,7 @@ import UpdateProfilePicture from "@/pages/User/UpdateProfilePicture";
 import useUserData from "./hooks/useUserData";
 import { useAuth } from "./contexts/auth/context";
 import Spinner from "./components/Spinner";
+import { useState } from "react";
 
 function App() {
     const { state } = useAuth();
@@ -28,7 +29,6 @@ function App() {
     // and updates the auth state
     useUserData();
 
-    console.log(state);
     if (state.isLoading) return <Spinner />;
     if (state.error) return <h3 className="text-3xl text-gray-800">{state.error}</h3>;
 

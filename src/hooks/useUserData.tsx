@@ -3,12 +3,10 @@ import { UserServices } from "@/services/user.services";
 import { useAuth } from "@/contexts/auth/context";
 import { apiDown, userDataFetched, requestFinishedProcessing } from "@/contexts/auth/reducer";
 import { IUser } from "@/contexts/auth/state";
-import { Navigate } from "react-router-dom";
-import Spinner from "@/components/Spinner";
 
 export default function useUserData() {
     const userServices = new UserServices();
-    const { state, dispatch } = useAuth();
+    const { dispatch } = useAuth();
 
     useEffect(() => {
         // Check if api is running properly or not
