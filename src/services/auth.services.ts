@@ -1,3 +1,4 @@
+import { IUser } from "@/contexts/auth/state";
 import axiosInstance from "../axiosInstance";
 
 interface ILoginData {
@@ -7,25 +8,31 @@ interface ILoginData {
 interface Response {
     success: boolean;
     message: string | null;
+    user: IUser | null;
 }
 
 // TODO: error handling in axios
 export class AuthServices {
-    private sendResponse(success: boolean, message: string | null): Response {
+    private sendResponse(
+        success: boolean,
+        message: string | null,
+        user: IUser | null = null
+    ): Response {
         return {
             success,
             message,
+            user,
         };
     }
 
     async login(loginData: ILoginData): Promise<Response> {
         try {
-            await axiosInstance.post("/auth/login", loginData, {
+            const response = await axiosInstance.post("/auth/login", loginData, {
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
-            return this.sendResponse(true, null);
+            return this.sendResponse(true, null, response.data);
         } catch (err: any) {
             if (err.name === "TypeError") {
                 return this.sendResponse(false, "No internet connection");
