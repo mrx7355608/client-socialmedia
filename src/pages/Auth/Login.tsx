@@ -4,10 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import MyInput from "@/components/MyInput";
 import { AuthServices } from "../../services/auth.services";
 import { BeatLoader } from "react-spinners";
+import { useAuth } from "@/contexts/auth/context";
+import { loginUser } from "@/contexts/auth/reducer";
+import { IUser } from "@/contexts/auth/state";
 
 export default function Login() {
     const authServices = new AuthServices();
     const navigateTo = useNavigate();
+    const { dispatch } = useAuth();
     const [error, setError] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(false);
     const [loginData, setLoginData] = React.useState({
@@ -90,6 +94,8 @@ export default function Login() {
             return setTimeout(() => setError(""), 7000);
         }
         // Redirect to homepage on successfull login
+        // TODO: it does not work, fix it!
+        dispatch(loginUser(response.user as IUser));
         return navigateTo("/");
     }
 }
