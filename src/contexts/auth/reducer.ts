@@ -2,6 +2,7 @@ import {
     AuthActions,
     IAuthActionTypes,
     IAuthError,
+    ILogin,
     ILogoutAuth,
     IRequestFinished,
     IUserFetchedAuth,
@@ -10,6 +11,8 @@ import { IAuthState, IUser } from "./state";
 
 export function authReducer(state: IAuthState, action: AuthActions): IAuthState {
     switch (action.type) {
+        case IAuthActionTypes.Login:
+            return { ...state, user: action.payload.user };
         case IAuthActionTypes.Logout:
             return { ...state, user: null };
         case IAuthActionTypes.AuthError:
@@ -50,5 +53,12 @@ export function apiDown(): IAuthError {
 export function requestFinishedProcessing(): IRequestFinished {
     return {
         type: IAuthActionTypes.RequestFinished,
+    };
+}
+
+export function loginUser(user: IUser): ILogin {
+    return {
+        type: IAuthActionTypes.Login,
+        payload: { user },
     };
 }
