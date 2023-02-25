@@ -1,8 +1,11 @@
-import Post from "@/components/Post";
 import { useAuth } from "@/contexts/auth/context";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 export default function Profile() {
     const { state } = useAuth();
+
+    const linkStyle = "mr-9 bg-transparent font-medium text-gray-900";
+    const activeLinkStyle = `${linkStyle} border-b-2 border-gray-800 pb-1`;
     return (
         <>
             {/* user image and some data */}
@@ -17,15 +20,32 @@ export default function Profile() {
                 <p className="text-center text-gray-500 font-medium">zerotwo@life.com</p>
                 <hr className="my-5" />
                 <div>
-                    <button className="mr-9 bg-transparent font-medium text-gray-900">
+                    <NavLink
+                        end
+                        to="/profile"
+                        className={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                    >
+                        Posts
+                    </NavLink>
+                    <NavLink
+                        end
+                        to="/profile/photos"
+                        className={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                    >
                         Photos
-                    </button>
-                    <button className="bg-transparent font-medium text-gray-900">Friends</button>
+                    </NavLink>
+                    <NavLink
+                        end
+                        to="/profile/friends"
+                        className={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                    >
+                        Friends
+                    </NavLink>
                 </div>
             </div>
 
-            {/* Posts */}
-            <Post />
+            {/* posts, friends, photos */}
+            <Outlet />
         </>
     );
 }
