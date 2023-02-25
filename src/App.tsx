@@ -23,6 +23,7 @@ import Spinner from "@/components/Spinner";
 import UserPosts from "@/pages/User/UserPosts";
 import UserPhotos from "@/pages/User/UserPhotos";
 import UserFriends from "@/pages/User/UserFriends";
+import SearchPage from "@/pages/Search";
 
 function App() {
     const { state } = useAuth();
@@ -39,6 +40,7 @@ function App() {
             {/* Main Routes */}
             <Route path="/" element={<MainLayout />}>
                 <Route index element={<Home />} />
+                <Route path="search" element={<SearchPage />} />
                 <Route path="profile" element={<Profile />}>
                     <Route index element={<UserPosts />} />
                     <Route path="friends" element={<UserFriends />} />
