@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./contexts/auth/context";
 // Layouts
 import AuthForms from "@/layouts/AuthForms";
 import MainLayout from "@/layouts/MainLayout";
@@ -17,10 +18,11 @@ import ResendVerificationEmail from "@/pages/Auth/ResendVerificationEmail";
 import RemoveAccount from "@/pages/User/RemoveAccount";
 import ChangePassword from "@/pages/User/ChangePassword";
 import UpdateProfilePicture from "@/pages/User/UpdateProfilePicture";
-import useUserData from "./hooks/useUserData";
-import { useAuth } from "./contexts/auth/context";
-import Spinner from "./components/Spinner";
-import { useState } from "react";
+import useUserData from "@/hooks/useUserData";
+import Spinner from "@/components/Spinner";
+import UserPosts from "@/pages/User/UserPosts";
+import UserPhotos from "@/pages/User/UserPhotos";
+import UserFriends from "@/pages/User/UserFriends";
 
 function App() {
     const { state } = useAuth();
@@ -37,7 +39,11 @@ function App() {
             {/* Main Routes */}
             <Route path="/" element={<MainLayout />}>
                 <Route index element={<Home />} />
-                <Route path="profile" element={<Profile />} />
+                <Route path="profile" element={<Profile />}>
+                    <Route index element={<UserPosts />} />
+                    <Route path="friends" element={<UserFriends />} />
+                    <Route path="photos" element={<UserPhotos />} />
+                </Route>
                 <Route path="pending-requests" element={<PendingRequests />} />
                 <Route path="settings">
                     <Route index element={<Settings />} />
