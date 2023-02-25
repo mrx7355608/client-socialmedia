@@ -25,7 +25,13 @@ export default function UserFriends() {
     }, []);
 
     if (loading) return <Spinner />;
-    return friends.map((frnd) => <Friend key={frnd._id} friend={frnd} />);
+    return (
+        <div>
+            {friends.map((frnd) => (
+                <Friend key={frnd._id} friend={frnd} />
+            ))}
+        </div>
+    );
 }
 
 function Friend({ friend }: { friend: IUserFriend }) {
