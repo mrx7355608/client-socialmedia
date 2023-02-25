@@ -15,6 +15,16 @@ export class UserServices {
         };
     }
 
+    async search(searchQuery: string) {
+        try {
+            const url = "/users/search?user=" + searchQuery;
+            const response = await axiosInstance.get(url);
+            return this.sendResponse(true, response.data);
+        } catch (err: any) {
+            return this.sendResponse(false, err.message);
+        }
+    }
+
     async getMyFriends() {
         try {
             const response = await axiosInstance.get("/users/me/friends");
