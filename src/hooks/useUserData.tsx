@@ -19,8 +19,8 @@ export default function useUserData() {
 
         // Fetch user data
         async function getUserData() {
-            const { success, user } = await userServices.getMe();
-            if (success) return dispatch(userDataFetched(user as IUser));
+            const { success, data } = await userServices.getMe();
+            if (success) return dispatch(userDataFetched(data as IUser));
             return dispatch(requestFinishedProcessing());
         }
 
