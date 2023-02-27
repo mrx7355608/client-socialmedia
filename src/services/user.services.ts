@@ -8,11 +8,30 @@ interface Response {
 
 export class UserServices {
     // TODO: create an error handling function for axios errors
+
+    // TODO: fix data param type
     private sendResponse(success: boolean, data: Object | null): Response {
         return {
             success,
             data,
         };
+    }
+
+    async getMyTimeline() {
+        try {
+            const response = await axiosInstance.get("/posts/me/timeline");
+            return this.sendResponse(true, response.data);
+        } catch (err: any) {
+            return this.sendResponse(false, err.message);
+        }
+    }
+    async createPost(postData: { body: string }) {
+        try {
+            const response = await axiosInstance.post("/posts", postData);
+            return this.sendResponse(true, response.data);
+        } catch (err: any) {
+            return this.sendResponse(false, err.message);
+        }
     }
 
     async search(searchQuery: string) {
