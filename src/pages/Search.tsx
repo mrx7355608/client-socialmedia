@@ -2,7 +2,7 @@ import UserBoxAnimations from "@/components/SkeletonAnimations/UserBoxAnimations
 import { UserServices } from "@/services/user.services";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface ISearchResult {
     fullname: string;
@@ -20,20 +20,23 @@ export default function SearchPage() {
     const [isMoreContent, setMoreContent] = useState(true);
     const [searchResults, setResults] = useState<ISearchResult[]>([]);
 
-    useEffect(function () {
-        // TODO: Search users
-        const searchQuery = new URLSearchParams(loc.search).get("user") as string;
-        (async function () {
-            const url = `/users/search?user=${searchQuery}&page=${page}`;
-            const response = await userServices.search<ISearchResult[]>(url);
-            console.log(response.data);
-            if (response.success) {
-                if (response.data.length < 10) setMoreContent(false);
-                return setResults([...searchResults, ...response.data]);
-            }
-            setMoreContent(false);
-        })();
-    }, []);
+    useEffect(
+        function () {
+            console.log(page);
+            const searchQuery = new URLSearchParams(loc.search).get("user") as string;
+            (async function () {
+                const url = `/users/search?user=${searchQuery}&page=${page}`;
+                const response = await userServices.search<ISearchResult[]>(url);
+                console.log(response.data);
+                if (response.success) {
+                    if (response.data.length < 10) setMoreContent(false);
+                    return setResults([...searchResults, ...response.data]);
+                }
+                setMoreContent(false);
+            })();
+        },
+        [page]
+    );
 
     return (
         <>
@@ -51,11 +54,6 @@ export default function SearchPage() {
                         No more search resutls to show
                     </p>
                 }
-                // Pull down to refresh
-                pullDownToRefresh={true}
-                pullDownToRefreshThreshold={0.9}
-                releaseToRefreshContent={<p className="font-medium text-sm">Release to refresh</p>}
-                refreshFunction={() => {}}
             >
                 {searchResults.map((user) => {
                     return <User key={user._id} user={user} />;
@@ -86,7 +84,11 @@ function User({ user }: { user: ISearchResult }) {
                         alt="friend"
                     />
                     <div className="flex flex-col gapy-y-1">
-                        <p className="font-medium text-gray-800 text-sm">{user.fullname}</p>
+                        <Link to={"/users/" + user._id}>
+                            <p className="text-gray-800 text-sm font-medium hover:underline">
+                                {user.fullname}
+                            </p>
+                        </Link>
                         <p className="font-medium text-gray-500 text-xs">Tue Feb 3 2021</p>
                     </div>
                 </div>

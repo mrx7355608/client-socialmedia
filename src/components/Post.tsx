@@ -1,6 +1,8 @@
+import { IPost } from "@/pages/Home";
 import { BiLike, BiComment } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
-export default function Post({ postData }: { postData: any }) {
+export default function Post({ postData }: { postData: IPost }) {
     return (
         <div className="flex flex-col p-4 pb-2 my-3 rounded-lg shadow-md bg-white">
             {/* Author */}
@@ -11,7 +13,11 @@ export default function Post({ postData }: { postData: any }) {
                     className="w-10 h-10 rounded-full"
                 />
                 <div>
-                    <p className="text-gray-800 text-sm font-medium">{postData.author.fullname}</p>
+                    <Link to={"/users/" + postData.author.authorId}>
+                        <p className="text-gray-800 text-sm font-medium hover:underline">
+                            {postData.author.fullname}
+                        </p>
+                    </Link>
                     <p className="text-xs font-medium text-gray-500">
                         {new Date(postData.createdAt).toDateString()}
                     </p>
