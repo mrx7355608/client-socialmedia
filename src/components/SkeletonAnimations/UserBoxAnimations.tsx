@@ -2,7 +2,7 @@ import React from "react";
 
 export default function UserBoxAnimations() {
     return (
-        <div className="bg-white border-0 my-3 shadow-lg rounded-lg p-4 max-w-sm w-full mx-auto">
+        <div className="flex justify-between bg-white border-0 my-3 shadow-lg rounded-lg p-4 max-w-sm w-full mx-auto">
             <div className="animate-pulse flex-col">
                 {/* Profile picture circle */}
                 <div className="flex items-center gap-x-2 w-full">
@@ -14,7 +14,8 @@ export default function UserBoxAnimations() {
                     </div>
                 </div>
             </div>
-            {/* Add an action button here */}
+            {/* Action button */}
+            <div className="animate-pulse w-6 h-6 bg-slate-400 rounded-md my-auto"></div>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import { IPost } from "@/pages/Home";
 
 export class UserServices {
     // TODO: create an error handling function for axios errors
+    // TODO: fix "ResponseType"
 
     // TODO: fix data param type
     private sendResponse<T>(success: boolean, data: T): { success: boolean; data: T } {
@@ -30,13 +31,12 @@ export class UserServices {
         }
     }
 
-    async search(searchQuery: string) {
+    async search<ResponseType>(url: string) {
         try {
-            const url = "/users/search?user=" + searchQuery;
-            const response = await axiosInstance.get(url);
-            return this.sendResponse(true, response.data);
+            const response = await axiosInstance.get<ResponseType>(url);
+            return this.sendResponse<ResponseType>(true, response.data);
         } catch (err: any) {
-            return this.sendResponse(false, err.message);
+            return this.sendResponse<ResponseType>(false, err.message);
         }
     }
 
