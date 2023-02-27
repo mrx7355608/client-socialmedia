@@ -1,28 +1,24 @@
 import axiosInstance from "../axiosInstance";
 import { config } from "../../config/config";
-
-interface Response {
-    success: boolean;
-    data: Object | string | null;
-}
+import { IPost } from "@/pages/Home";
 
 export class UserServices {
     // TODO: create an error handling function for axios errors
 
     // TODO: fix data param type
-    private sendResponse(success: boolean, data: Object | null): Response {
+    private sendResponse<T>(success: boolean, data: T): { success: boolean; data: T } {
         return {
             success,
             data,
         };
     }
 
-    async getMyTimeline() {
+    async getMyTimeline<ResponseType>(url: string) {
         try {
-            const response = await axiosInstance.get("/posts/me/timeline");
-            return this.sendResponse(true, response.data);
+            const response = await axiosInstance.get<ResponseType>(url);
+            return this.sendResponse<ResponseType>(true, response.data);
         } catch (err: any) {
-            return this.sendResponse(false, err.message);
+            return this.sendResponse<ResponseType>(false, err.message);
         }
     }
     async createPost(postData: { body: string }) {
