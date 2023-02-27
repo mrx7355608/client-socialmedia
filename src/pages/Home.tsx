@@ -1,7 +1,6 @@
 import AddPost from "@/components/AddPost";
 import Post from "@/components/Post";
 import PostSkeletonLoadingAnimation from "@/components/SkeletonAnimations/PostAnimation";
-import useTimeline from "@/hooks/useTimeline";
 import { UserServices } from "@/services/user.services";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -15,6 +14,8 @@ export interface IPost {
     };
     body: string;
     createdAt: Date;
+    likes: [];
+    comments: [];
     _id: string;
 }
 
@@ -30,9 +31,13 @@ export default function Home() {
 
         // Fetch user timeline
         (async () => {
-            const { data } = await userServices.getMyTimeline<IPost[]>(url);
-            if (data.length < 10) setMoreContent(false);
-            setTimeline([...timeline, ...data]);
+            const { success, data } = await userServices.getMyTimeline<IPost[]>(url);
+            if (success) {
+                if (data.length < 10) setMoreContent(false);
+                return setTimeline([...timeline, ...data]);
+            }
+            // TODO: error handling
+            setMoreContent(false);
         })();
     }, [page]);
 
