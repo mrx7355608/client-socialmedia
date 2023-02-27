@@ -93,8 +93,8 @@ export default function Login() {
             setError(response.message as string);
             return setTimeout(() => setError(""), 7000);
         }
+
         // Redirect to homepage on successfull login
-        // TODO: it does not work, fix it!
         dispatch(loginUser(response.user as IUser));
         return navigateTo("/");
     }
