@@ -67,4 +67,13 @@ export class UserServices {
             return this.sendResponse(false, null);
         }
     }
+
+    async getOneUser(id: string) {
+        try {
+            const response = await axiosInstance.get(`/users/${id}`);
+            return this.sendResponse(true, response.data);
+        } catch (err) {
+            return this.sendResponse(false, null);
+        }
+    }
 }

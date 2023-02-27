@@ -24,6 +24,7 @@ import UserPosts from "@/pages/User/UserPosts";
 import UserPhotos from "@/pages/User/UserPhotos";
 import UserFriends from "@/pages/User/UserFriends";
 import SearchPage from "@/pages/Search";
+import OneUser from "./pages/User/OneUser";
 
 function App() {
     const { state } = useAuth();
@@ -41,12 +42,15 @@ function App() {
             <Route path="/" element={<MainLayout />}>
                 <Route index element={<Home />} />
                 <Route path="search" element={<SearchPage />} />
+                <Route path="users/:id" element={<OneUser />} />
+                <Route path="pending-requests" element={<PendingRequests />} />
+
                 <Route path="profile" element={<Profile />}>
                     <Route index element={<UserPosts />} />
                     <Route path="friends" element={<UserFriends />} />
                     <Route path="photos" element={<UserPhotos />} />
                 </Route>
-                <Route path="pending-requests" element={<PendingRequests />} />
+
                 <Route path="settings">
                     <Route index element={<Settings />} />
                     <Route path="manage-friends" element={<ManageFriends />} />
