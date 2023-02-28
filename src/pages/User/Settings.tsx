@@ -14,9 +14,12 @@ export default function Settings() {
             <button className="text-left w-full rounded-md hover:bg-gray-100 p-3 px-4 font-medium bg-white">
                 <Link to="manage-friends">Manage friends</Link>
             </button>
-            <button className="text-left w-full rounded-md hover:bg-gray-100 p-3 px-4 font-medium bg-white">
+            <Link
+                to="/settings/update-picture"
+                className="text-left w-full rounded-md hover:bg-gray-100 p-3 px-4 font-medium bg-white"
+            >
                 Update profile picture
-            </button>
+            </Link>
             <button className="text-left w-full rounded-md hover:bg-gray-100 p-3 px-4 font-medium bg-white ">
                 Change password
             </button>

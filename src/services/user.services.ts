@@ -76,4 +76,17 @@ export class UserServices {
             return this.sendResponse(false, null);
         }
     }
+
+    async updatePicture(file: any) {
+        try {
+            const response = await axiosInstance.patch("/users/me/change-picture", file, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            return this.sendResponse(true, response.data);
+        } catch (err: any) {
+            return this.sendResponse(false, err.message);
+        }
+    }
 }
