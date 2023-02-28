@@ -1,4 +1,4 @@
-import { useAuth } from "../contexts/auth/context";
+import { useAuth } from "../../contexts/auth/context";
 import React, { useState } from "react";
 import AddPostModal from "./PostModal";
 

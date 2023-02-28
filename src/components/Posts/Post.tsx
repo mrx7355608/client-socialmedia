@@ -3,7 +3,7 @@ import { IPost } from "@/pages/Home";
 import { useState } from "react";
 import { BiComment } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import Like from "./Posts/Like";
+import Like from "./Like";
 
 export default function Post({ data }: { data: IPost }) {
     const [postData, setPostData] = useState<IPost>(data);

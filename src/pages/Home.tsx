@@ -1,5 +1,5 @@
-import AddPost from "@/components/AddPost";
-import Post from "@/components/Post";
+import AddPost from "@/components/Posts/AddPost";
+import Post from "@/components/Posts/Post";
 import PostSkeletonLoadingAnimation from "@/components/SkeletonAnimations/PostAnimation";
 import { UserServices } from "@/services/user.services";
 import { useEffect, useState } from "react";
