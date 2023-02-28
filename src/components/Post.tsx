@@ -1,8 +1,24 @@
+import { useAuth } from "@/contexts/auth/context";
 import { IPost } from "@/pages/Home";
-import { BiLike, BiComment } from "react-icons/bi";
+import { PostServices } from "@/services/post.services";
+import { useState } from "react";
+import { BiDislike, BiLike, BiComment } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 
-export default function Post({ postData }: { postData: IPost }) {
+export default function Post({ data }: { data: IPost }) {
+    const [postData, setPostData] = useState<IPost>(data);
+    const { state } = useAuth();
+    const postServices = new PostServices();
+    const [loading, setLoading] = useState(false);
+
+    async function like(id: string) {
+        setLoading(true);
+        const response = await postServices.likePost(id);
+        setLoading(false);
+        updatePostLikes();
+    }
+
     return (
         <div className="flex flex-col p-4 pb-2 my-3 rounded-lg shadow-md bg-white">
             {/* Author */}
@@ -38,30 +54,78 @@ export default function Post({ postData }: { postData: IPost }) {
 
             {/* Like and Comment button */}
             <div className="flex gap-x-2 bg-transparent">
-                {/* TODO: use icons */}
-                <button className="bg-transparent hover:bg-gray-200 flex-1 rounded-md font-medium text-sm p-1.5">
-                    <BiLike
-                        size="18px"
-                        style={{
-                            display: "inline",
-                            color: "inherit",
-                            marginRight: "7px",
-                        }}
-                    />
-                    Like
-                </button>
-                <button className="bg-transparent hover:bg-gray-200 flex-1 rounded-md font-medium text-sm p-1.5">
-                    <BiComment
-                        size="18px"
-                        style={{
-                            display: "inline",
-                            color: "inherit",
-                            marginRight: "6px",
-                        }}
-                    />
-                    Comment
-                </button>
+                {/* Like button */}
+                {loading ? (
+                    <button
+                        disabled
+                        className="bg-transparent hover:bg-gray-200 flex-1 rounded-md font-medium text-sm p-1.5 pt-2"
+                    >
+                        <BeatLoader size={8} />
+                    </button>
+                ) : !postData.likes.includes(state.user?.id as never) ? (
+                    <button
+                        onClick={async () => await like(postData._id)}
+                        className="bg-transparent hover:bg-gray-200 flex-1 rounded-md font-medium text-sm p-1.5"
+                    >
+                        <BiLike
+                            size="18px"
+                            style={{
+                                display: "inline",
+                                color: "inherit",
+                                marginRight: "7px",
+                            }}
+                        />
+                        Like
+                    </button>
+                ) : (
+                    <button
+                        onClick={async () => await like(postData._id)}
+                        className="bg-transparent hover:bg-gray-200 flex-1 rounded-md font-medium text-sm p-1.5"
+                    >
+                        <BiDislike
+                            size="18px"
+                            style={{
+                                display: "inline",
+                                color: "inherit",
+                                marginRight: "7px",
+                            }}
+                        />
+                        Dislike
+                    </button>
+                )}
+
+                <CommentsButton />
             </div>
         </div>
+    );
+
+    function updatePostLikes() {
+        // TODO: fix `as never`
+        if (!postData.likes.includes(state.user?.id as never)) {
+            return setPostData({
+                ...postData,
+                likes: [...postData.likes, state.user?.id as string],
+            });
+        }
+        return setPostData({
+            ...postData,
+            likes: postData.likes.filter((str) => str !== state.user?.id),
+        });
+    }
+}
+
+function CommentsButton() {
+    return (
+        <button className="bg-transparent hover:bg-gray-200 flex-1 rounded-md font-medium text-sm p-1.5">
+            <BiComment
+                size="18px"
+                style={{
+                    display: "inline",
+                    color: "inherit",
+                    marginRight: "6px",
+                }}
+            />
+            Comment
+        </button>
     );
 }

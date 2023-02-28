@@ -14,8 +14,8 @@ export interface IPost {
     };
     body: string;
     createdAt: Date;
-    likes: [];
-    comments: [];
+    likes: [] | string[];
+    comments: [] | string[];
     _id: string;
 }
 
@@ -55,7 +55,7 @@ export default function Home() {
                 }
             >
                 {timeline.map((post) => {
-                    return <Post key={post._id} postData={post} />;
+                    return <Post key={post._id} data={post} />;
                 })}
             </InfiniteScroll>
         </div>
