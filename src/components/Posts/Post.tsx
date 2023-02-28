@@ -3,6 +3,7 @@ import { IPost } from "@/pages/Home";
 import { useState } from "react";
 import { BiComment } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import CommentsSection from "./CommentsSection";
 import Like from "./Like";
 
 export default function Post({ data }: { data: IPost }) {
@@ -10,7 +11,7 @@ export default function Post({ data }: { data: IPost }) {
     const { state } = useAuth();
 
     return (
-        <div className="flex flex-col p-4 pb-2 my-3 rounded-lg shadow-md bg-white">
+        <div className="flex flex-col p-4 pb-2 my-4 rounded-lg shadow-md bg-white">
             {/* Author */}
             <div className="flex mb-3 gap-x-2 items-center">
                 <img
@@ -53,6 +54,7 @@ export default function Post({ data }: { data: IPost }) {
                 {/* Comments button */}
                 <CommentsButton />
             </div>
+            {/* <CommentsSection comments={postData.comments} /> */}
         </div>
     );
 
