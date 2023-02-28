@@ -15,7 +15,7 @@ export interface IPost {
     body: string;
     createdAt: Date;
     likes: [] | string[];
-    comments: [] | string[];
+    comments: [];
     _id: string;
 }
 
