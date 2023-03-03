@@ -4,25 +4,12 @@ import PostSkeletonLoadingAnimation from "@/components/SkeletonAnimations/PostAn
 import { UserServices } from "@/services/user.services";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-
-export interface IPost {
-    author: {
-        authorId: string;
-        firstname: string;
-        lastname: string;
-        profilePicture: string;
-        linkToProfile: string;
-    };
-    body: string;
-    createdAt: Date;
-    likes: [] | string[];
-    comments: [];
-    _id: string;
-}
+import { IPost } from "interfaces/post.interface";
 
 export default function Home() {
     const userServices = new UserServices();
     const [page, setPage] = useState(1);
+    const [err, setError] = useState<string>("");
     const [isMoreContent, setMoreContent] = useState(true);
     const [timeline, setTimeline] = useState<IPost[]>([]);
 
@@ -32,12 +19,12 @@ export default function Home() {
 
         // Fetch user timeline
         (async () => {
-            const { success, data } = await userServices.getMyTimeline<IPost[]>(url);
+            const { success, data, error } = await userServices.getMyTimeline(url);
+            if (error) setError(error);
             if (success) {
                 if (data.length < 10) setMoreContent(false);
                 return setTimeline([...timeline, ...data]);
             }
-            // TODO: error handling
             setMoreContent(false);
         })();
     }, [page]);
@@ -45,6 +32,7 @@ export default function Home() {
     return (
         <div>
             <AddPost />
+            <h3 className="text-2xl font-medium text-red-600 text-center">{err ? err : null}</h3>
             <InfiniteScroll
                 dataLength={timeline.length}
                 next={() => setPage(page + 1)}
