@@ -1,68 +1,56 @@
-import { useAuth } from "@/contexts/auth/context";
-import React from "react";
-import { Link } from "react-router-dom";
+import { PostServices } from "@/services/post.services";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import CommentAnimation from "../SkeletonAnimations/CommentAnimation";
+import AddComment from "./AddComment";
+import Comment, { IComment } from "./Comment";
 
 interface ICommentSectionProps {
-    comments: [];
+    setShowComments: Dispatch<SetStateAction<boolean>>;
+    postId: string;
 }
 
-export default function CommentsSection({ comments }: ICommentSectionProps) {
+export default function CommentsSection({ setShowComments, postId }: ICommentSectionProps) {
+    const postServices = new PostServices();
+    const [loading, setLoading] = useState<boolean>(true);
+    const [comments, setComments] = useState<IComment[]>([]);
+
+    useEffect(function () {
+        // TODO: fetch comments
+        (async function () {
+            setLoading(true);
+            const response = await postServices.getComments(postId);
+            console.log(response.data.comments);
+            setLoading(false);
+            setComments(response.data.comments);
+        })();
+    }, []);
+
     return (
         <div className="overflow-hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-lg w-11/12 h-4/5">
             {/* Heading / Title */}
             <div className="w-full text-center p-3 shadow-sm ">
                 <h3 className="font-medium">User 03's Post</h3>
+                <button onClick={() => setShowComments(false)}>Close</button>
             </div>
 
             {/* Comments list */}
             <div className="overflow-scroll flex flex-col items-start justify-start p-4 max-h-full">
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
+                {loading ? (
+                    <>
+                        <CommentAnimation />
+                        <CommentAnimation />
+                        <CommentAnimation />
+                    </>
+                ) : (
+                    // TODO: add pagination
+                    comments.map((cmnt) => {
+                        return <Comment key={cmnt._id} comment={cmnt} />;
+                    })
+                )}
             </div>
 
             {/* Add your comment */}
             <AddComment />
-        </div>
-    );
-}
-
-function AddComment() {
-    const { state } = useAuth();
-    return (
-        <div className="absolute bottom-0 bg-white w-full flex items-center justify-center gap-x-2 mt-2 p-3">
-            <img className="w-8 h-8 rounded-full" src={state.user?.profilePicture} />
-            <input
-                className="rounded-full w-full p-2 px-3  bg-gray-200 text-sm"
-                type="text"
-                placeholder="Type your comment here"
-            />
-            <button className="rounded-md p-1 px-3 pb-1.5 bg-gray-900 text-white text-sm font-medium">
-                Post
-            </button>
-        </div>
-    );
-}
-
-function Comment() {
-    return (
-        <div className="flex gap-x-2 bg-transparent mt-3">
-            <img className="w-8 h-8 rounded-full" src="/user.png" alt="friend" />
-            <div className="flex flex-col bg-gray-200 rounded-xl p-3 ">
-                <Link to="">
-                    <p className="text-gray-800 text-sm font-medium hover:underline">User 01</p>
-                </Link>
-                <p className=" text-gray-800 text-sm">
-                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit, amet consectet...
-                </p>
-            </div>
         </div>
     );
 }
