@@ -8,7 +8,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 export interface IPost {
     author: {
         authorId: string;
-        fullname: string;
+        firstname: string;
+        lastname: string;
         profilePicture: string;
         linkToProfile: string;
     };
