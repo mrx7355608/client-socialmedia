@@ -9,27 +9,39 @@ interface IUserFriend {
     profilePicture: string;
 }
 
+interface IFriendsState {
+    loading: boolean;
+    err: string | null;
+    friends: IUserFriend[];
+}
+
 export default function UserFriends() {
     const userServices = new UserServices();
-    const [friends, setFriends] = useState<Array<IUserFriend>>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [userFriendsData, setData] = useState<IFriendsState>({
+        loading: true,
+        err: null,
+        friends: [],
+    });
 
     useEffect(function () {
         (async function () {
-            const { success, data } = await userServices.getMyFriends();
-            setLoading(false);
+            const { success, data, error } = await userServices.getMyFriends();
+            if (error) return setData({ ...userFriendsData, err: error });
             if (success) {
-                return setFriends((data as any).friends);
+                return setData({ ...userFriendsData, friends: data.friends, loading: false });
             }
         })();
     }, []);
 
-    if (loading) return <Spinner />;
+    if (userFriendsData.loading) return <Spinner />;
+
     return (
         <div>
-            {friends.map((frnd) => (
-                <Friend key={frnd._id} friend={frnd} />
-            ))}
+            {userFriendsData.err ? (
+                <h3 className="text-xl font-medium text-red-600 mt-5">{userFriendsData.err}</h3>
+            ) : (
+                userFriendsData.friends.map((frnd) => <Friend key={frnd._id} friend={frnd} />)
+            )}
         </div>
     );
 }
