@@ -19,20 +19,20 @@ export default function SearchPage() {
     const [page, setPage] = useState(1);
     const [isMoreContent, setMoreContent] = useState(true);
     const [searchResults, setResults] = useState<ISearchResult[]>([]);
+    const [err, setError] = useState<string>("");
 
     useEffect(
         function () {
-            console.log(page);
             const searchQuery = new URLSearchParams(loc.search).get("user") as string;
+            const url = `/users/search?user=${searchQuery}&page=${page}`;
+
             (async function () {
-                const url = `/users/search?user=${searchQuery}&page=${page}`;
-                const response = await userServices.search<ISearchResult[]>(url);
-                console.log(response.data);
-                if (response.success) {
-                    if (response.data.length < 10) setMoreContent(false);
-                    return setResults([...searchResults, ...response.data]);
+                const { success, data, error } = await userServices.search(url);
+                if (error) return setError(error);
+                if (success) {
+                    if (data.length < 10) setMoreContent(false);
+                    return setResults([...searchResults, ...data]);
                 }
-                setMoreContent(false);
             })();
         },
         [page]
@@ -43,22 +43,26 @@ export default function SearchPage() {
             <h2 className="text-lg font-bold text-gray-800 mt-5">
                 Showing results for {new URLSearchParams(loc.search).get("user")}
             </h2>
-            <InfiniteScroll
-                dataLength={searchResults.length}
-                next={() => setPage(page + 1)}
-                hasMore={isMoreContent}
-                loader={<InfiniteScrollLoader />}
-                scrollThreshold={0.9}
-                endMessage={
-                    <p className="text-gray-400 text-center font-medium">
-                        No more search resutls to show
-                    </p>
-                }
-            >
-                {searchResults.map((user) => {
-                    return <User key={user._id} user={user} />;
-                })}
-            </InfiniteScroll>
+            {err ? (
+                <h3 className="text-lg font-bold text-red-600 mt-5">{err}</h3>
+            ) : (
+                <InfiniteScroll
+                    dataLength={searchResults.length}
+                    next={() => setPage(page + 1)}
+                    hasMore={isMoreContent}
+                    loader={<InfiniteScrollLoader />}
+                    scrollThreshold={0.9}
+                    endMessage={
+                        <p className="text-gray-400 text-center font-medium">
+                            No more search resutls to show
+                        </p>
+                    }
+                >
+                    {searchResults.map((user) => {
+                        return <User key={user._id} user={user} />;
+                    })}
+                </InfiniteScroll>
+            )}
         </>
     );
 }
