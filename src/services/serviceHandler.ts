@@ -7,9 +7,9 @@ interface IMyResponse {
     error: string | null;
 }
 
-export default function serviceHandler(serviceFunc: (data: any) => Promise<AxiosResponse>) {
+export default function serviceHandler(serviceFunc: (data: any | null) => Promise<AxiosResponse>) {
     // Main handler function
-    return async function (data: any): Promise<IMyResponse> {
+    return async function (data: any | null = null): Promise<IMyResponse> {
         try {
             const response = await serviceFunc(data);
             return handleResponse(response);
