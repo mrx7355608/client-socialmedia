@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UserServices } from "@/services/user.services";
+import { PostServices } from "@/services/post.services";
 import { BeatLoader } from "react-spinners";
 
 interface IAddPostModal {
@@ -9,7 +9,7 @@ interface IAddPostModal {
 }
 
 export default function AddPostModal({ closeModal, disabled, checkDisable }: IAddPostModal) {
-    const userServices = new UserServices();
+    const postServices = new PostServices();
     const [loading, setLoading] = useState(false);
     const [postData, setPostData] = useState({
         body: "",
@@ -62,7 +62,7 @@ export default function AddPostModal({ closeModal, disabled, checkDisable }: IAd
 
     async function createNewPost() {
         setLoading(true);
-        const { success, data } = await userServices.createPost(postData);
+        const { success, data } = await postServices.createNewPost(postData);
         setLoading(false);
         console.log(data);
     }
