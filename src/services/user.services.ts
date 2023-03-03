@@ -1,42 +1,51 @@
 import axiosInstance from "../axiosInstance";
-import { config } from "../../config/config";
-import { IPost } from "@/pages/Home";
+import { IPost } from "interfaces/post.interface";
+import { IUser } from "@/contexts/auth/state";
+import serviceHandler from "./serviceHandler";
 
 export class UserServices {
     // TODO: create an error handling function for axios errors
     // TODO: fix "ResponseType"
 
     // TODO: fix data param type
-    private sendResponse<T>(success: boolean, data: T): { success: boolean; data: T } {
+    private sendResponse<T>(success: boolean, data: T | null, error: string | null = null) {
         return {
             success,
             data,
+            error,
         };
     }
 
-    async getMyTimeline<ResponseType>(url: string) {
-        try {
-            const response = await axiosInstance.get<ResponseType>(url);
-            return this.sendResponse<ResponseType>(true, response.data);
-        } catch (err: any) {
-            return this.sendResponse<ResponseType>(false, err.message);
-        }
-    }
-    async createPost(postData: { body: string }) {
-        try {
-            const response = await axiosInstance.post("/posts", postData);
-            return this.sendResponse(true, response.data);
-        } catch (err: any) {
-            return this.sendResponse(false, err.message);
+    private handleError(err: any): string {
+        if (err.response) {
+            return err.response.data.error;
+        } else if (err.request) {
+            return "It seems that server is down";
+        } else {
+            return "An un-expected error occured";
         }
     }
 
-    async search<ResponseType>(url: string) {
+    getMyTimeline = serviceHandler(async (url: string) => {
+        const response = await axiosInstance.get<IPost[]>(url);
+        return response;
+    });
+
+    async createPost(postData: { body: string }) {
         try {
-            const response = await axiosInstance.get<ResponseType>(url);
-            return this.sendResponse<ResponseType>(true, response.data);
+            const response = await axiosInstance.post<IPost>("/posts", postData);
+            return this.sendResponse(true, response.data);
         } catch (err: any) {
-            return this.sendResponse<ResponseType>(false, err.message);
+            return this.sendResponse(false, null, err.message);
+        }
+    }
+
+    async search(url: string) {
+        try {
+            const response = await axiosInstance.get<IUser[]>(url);
+            return this.sendResponse(true, response.data);
+        } catch (err: any) {
+            return this.sendResponse<null>(false, null, err.message);
         }
     }
 
@@ -54,8 +63,8 @@ export class UserServices {
             const response = await axiosInstance.get("/users/me");
             return this.sendResponse(true, response.data);
         } catch (err: any) {
-            if (err.name === "TypeError") return this.sendResponse(false, "No internet connection");
-            return this.sendResponse(false, "Something went wrong");
+            const errorMessage = this.handleError(err);
+            return this.sendResponse(false, errorMessage);
         }
     }
 
