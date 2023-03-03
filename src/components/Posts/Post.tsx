@@ -1,13 +1,14 @@
 import { useAuth } from "@/contexts/auth/context";
 import { IPost } from "@/pages/Home";
 import { useState } from "react";
-import { BiComment } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import CommentsButton from "./CommentsButton";
 import CommentsSection from "./CommentsSection";
 import Like from "./Like";
 
 export default function Post({ data }: { data: IPost }) {
     const [postData, setPostData] = useState<IPost>(data);
+    const [showCommentSection, setShowComment] = useState<boolean>(false);
     const { state } = useAuth();
 
     return (
@@ -22,7 +23,8 @@ export default function Post({ data }: { data: IPost }) {
                 <div>
                     <Link to={"/users/" + postData.author.authorId}>
                         <p className="text-gray-800 text-sm font-medium hover:underline">
-                            {postData.author.fullname}
+                            {postData.author.firstname + " "}
+                            {postData.author.lastname}
                         </p>
                     </Link>
                     <p className="text-xs font-medium text-gray-500">
@@ -52,9 +54,13 @@ export default function Post({ data }: { data: IPost }) {
                     updatePostLikes={updatePostLikes}
                 />
                 {/* Comments button */}
-                <CommentsButton />
+                <CommentsButton setShowComments={setShowComment} />
             </div>
-            {/* <CommentsSection comments={postData.comments} /> */}
+
+            {/* Comments Section */}
+            {showCommentSection ? (
+                <CommentsSection setShowComments={setShowComment} postId={postData._id} />
+            ) : null}
         </div>
     );
 
@@ -71,20 +77,4 @@ export default function Post({ data }: { data: IPost }) {
             likes: postData.likes.filter((str) => str !== state.user?.id),
         });
     }
-}
-
-function CommentsButton() {
-    return (
-        <button className="bg-transparent hover:bg-gray-200 flex-1 rounded-md font-medium text-sm p-1.5">
-            <BiComment
-                size="18px"
-                style={{
-                    display: "inline",
-                    color: "inherit",
-                    marginRight: "6px",
-                }}
-            />
-            Comment
-        </button>
-    );
 }
