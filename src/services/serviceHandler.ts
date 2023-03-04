@@ -29,7 +29,7 @@ export default function serviceHandler(serviceFunc: (data: any | null) => Promis
     function handleError(err: AxiosError): IMyResponse {
         let errorMessage = "An un-expected error occured";
         if (err.response) errorMessage = (err.response.data as any).error;
-        if (err.request) errorMessage = "It seems that server is down";
+        else if (err.request) errorMessage = "It seems that server is down";
         return {
             success: false,
             error: errorMessage,
