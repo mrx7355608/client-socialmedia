@@ -89,13 +89,13 @@ export default function Login() {
         setLoading(true);
         const response = await authServices.login(loginData);
         setLoading(false);
-        if (!response.success) {
-            setError(response.message as string);
+        if (response.error) {
+            setError(response.error);
             return setTimeout(() => setError(""), 7000);
         }
 
         // Redirect to homepage on successfull login
-        dispatch(loginUser(response.user as IUser));
+        dispatch(loginUser(response.data as IUser));
         return navigateTo("/");
     }
 }
