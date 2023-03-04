@@ -19,5 +19,5 @@ export default function useTimeline(url: string) {
         })();
     }, [url]);
 
-    return { err, posts, isMore };
+    return { err, posts, setPosts, isMore };
 }
