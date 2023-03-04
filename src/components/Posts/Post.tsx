@@ -1,5 +1,5 @@
 import { useAuth } from "@/contexts/auth/context";
-import { IPost } from "@/pages/Home";
+import { IPost } from "../../interfaces/post.interface";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CommentsButton from "./CommentsButton";
