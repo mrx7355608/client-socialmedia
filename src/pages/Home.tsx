@@ -1,7 +1,6 @@
 import AddPost from "@/components/Posts/AddPost";
 import Post from "@/components/Posts/Post";
 import PostSkeletonLoadingAnimation from "@/components/SkeletonAnimations/PostAnimation";
-import { UserServices } from "@/services/user.services";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useTimeline from "@/hooks/useTimeline";
@@ -9,11 +8,10 @@ import useTimeline from "@/hooks/useTimeline";
 export default function Home() {
     // Todo: add `no internet connection` error handling
     const [page, setPage] = useState<number>(1);
-    const { err, posts, isMore } = useTimeline(`/posts/me/timeline?page=${page}`);
+    const { err, posts, setPosts, isMore } = useTimeline(`/posts/me/timeline?page=${page}`);
 
     return (
         <div>
-            <AddPost />
             {err ? (
                 <h3 className="text-2xl font-medium text-red-600 text-center mt-5">{err}</h3>
             ) : (
@@ -29,6 +27,7 @@ export default function Home() {
                         </p>
                     }
                 >
+                    <AddPost posts={posts} setPosts={setPosts} />
                     {posts.map((post) => {
                         return <Post key={post._id} data={post} />;
                     })}
