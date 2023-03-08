@@ -29,7 +29,7 @@ export default function CommentsSection({ setShowComments, postId }: ICommentSec
                         <CommentAnimation />
                     </>
                 ) : (
-                    // TODO: add pagination
+                    // TODO: add pagination (Inifinite scroll component)
                     comments.map((cmnt) => {
                         return <Comment key={cmnt._id} comment={cmnt} />;
                     })
