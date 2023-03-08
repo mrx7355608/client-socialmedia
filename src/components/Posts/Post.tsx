@@ -13,7 +13,7 @@ export default function Post({ data }: { data: IPost }) {
 
     return (
         <div className="flex flex-col p-4 pb-2 rounded-lg shadow-md bg-white">
-            {/* Author */}
+            {/* AUTHOR */}
             <div className="flex mb-3 gap-x-2 items-center">
                 <img
                     src={postData.author.profilePicture}
@@ -33,31 +33,28 @@ export default function Post({ data }: { data: IPost }) {
                 </div>
             </div>
 
-            {/* Post body */}
+            {/* POST BODY */}
             <p className="mb-5 mt-1">{postData.body}</p>
 
-            {/* Total likes and comments on post */}
+            {/* NUMBER OF COMMENTS AND LIKES ON POST */}
             <div className="text-gray-400 mb-2">
-                {/* TODO: use icons */}
                 <span className="mr-3 text-xs">{postData.likes.length} Likes</span>
                 <span className="text-xs">{postData.comments.length} Comments</span>
             </div>
 
             <hr className="mb-2" />
 
-            {/* Like and Comment button */}
+            {/* LIKE AND COMMENT BUTTON */}
             <div className="flex gap-x-2 bg-transparent">
-                {/* Like button */}
                 <Like
                     postLikes={postData.likes}
                     postId={postData._id}
                     updatePostLikes={updatePostLikes}
                 />
-                {/* Comments button */}
                 <CommentsButton setShowComments={setShowComment} />
             </div>
 
-            {/* Comments Section */}
+            {/* COMMENTS SECTION */}
             {showCommentSection ? (
                 <CommentsSection setShowComments={setShowComment} postId={postData._id} />
             ) : null}
