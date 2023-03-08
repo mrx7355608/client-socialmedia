@@ -1,14 +1,16 @@
+import { usePost } from "@/contexts/post/context";
 import { BiDislike } from "react-icons/bi";
 
 interface ILikeButtonProps {
     like: (id: string) => Promise<void>;
-    postId: string;
 }
 
-export default function DislikeButton({ like, postId }: ILikeButtonProps) {
+export default function DislikeButton({ like }: ILikeButtonProps) {
+    const { post } = usePost();
+
     return (
         <button
-            onClick={async () => await like(postId)}
+            onClick={async () => await like(post._id)}
             className="bg-transparent hover:bg-gray-200 flex-1 rounded-md font-medium text-sm p-1.5"
         >
             <BiDislike

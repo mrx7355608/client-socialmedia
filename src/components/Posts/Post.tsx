@@ -51,9 +51,7 @@ export default function Post({ data }: { data: IPost }) {
                 </div>
 
                 {/* COMMENTS SECTION */}
-                {showCommentSection ? (
-                    <CommentsSection setShowComments={setShowComment} postId={postData._id} />
-                ) : null}
+                {showCommentSection ? <CommentsSection setShowComments={setShowComment} /> : null}
             </div>
         </PostContext.Provider>
     );

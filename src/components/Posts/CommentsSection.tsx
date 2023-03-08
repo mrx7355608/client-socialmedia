@@ -1,3 +1,4 @@
+import { usePost } from "@/contexts/post/context";
 import useFetch from "@/hooks/useFetch";
 import { Dispatch, SetStateAction } from "react";
 import CommentAnimation from "../SkeletonAnimations/CommentAnimation";
@@ -6,11 +7,15 @@ import Comment, { IComment } from "./Comment";
 
 interface ICommentSectionProps {
     setShowComments: Dispatch<SetStateAction<boolean>>;
-    postId: string;
 }
 
-export default function CommentsSection({ setShowComments, postId }: ICommentSectionProps) {
-    const { loading, data: comments, err } = useFetch<IComment[]>(`/posts/comments/${postId}`, []);
+export default function CommentsSection({ setShowComments }: ICommentSectionProps) {
+    const { post } = usePost();
+    const {
+        loading,
+        data: comments,
+        err,
+    } = useFetch<IComment[]>(`/posts/comments/${post._id}`, []);
 
     return (
         <div className="overflow-hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-lg w-11/12 h-4/5">

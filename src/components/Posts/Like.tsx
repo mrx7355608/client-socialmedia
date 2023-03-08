@@ -32,9 +32,9 @@ export default function Like() {
                     <BeatLoader size={8} />
                 </button>
             ) : post.likes.includes(authState.user?.id as never) ? (
-                <DislikeButton like={like} postId={post._id} />
+                <DislikeButton like={like} />
             ) : (
-                <LikeButton like={like} postId={post._id} />
+                <LikeButton like={like} />
             )}
         </>
     );
