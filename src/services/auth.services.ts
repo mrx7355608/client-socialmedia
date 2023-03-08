@@ -7,7 +7,7 @@ interface ILoginData {
 }
 
 export class AuthServices {
-    login = serviceHandler(async (loginData: ILoginData) => {
+    login = serviceHandler<ILoginData>(async (loginData) => {
         const response = await axiosInstance.post("/auth/login", loginData, {
             headers: {
                 "Content-Type": "application/json",

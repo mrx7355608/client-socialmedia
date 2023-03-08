@@ -4,23 +4,18 @@ import { IUser } from "@/contexts/auth/state";
 import serviceHandler from "./serviceHandler";
 
 export class UserServices {
-    getMyTimeline = serviceHandler(async (url: string) => {
+    getMyTimeline = serviceHandler<string>(async (url) => {
         const response = await axiosInstance.get<IPost[]>(url);
         return response;
     });
 
-    createPost = serviceHandler(async (postData: { body: string }) => {
+    createPost = serviceHandler<{ body: string }>(async (postData) => {
         const response = await axiosInstance.post<IPost>("/posts", postData);
         return response;
     });
 
-    search = serviceHandler(async (url: string) => {
+    search = serviceHandler<string>(async (url: string) => {
         const response = await axiosInstance.get(url);
-        return response;
-    });
-
-    getMyFriends = serviceHandler(async () => {
-        const response = await axiosInstance.get("/users/me/friends");
         return response;
     });
 
@@ -34,12 +29,12 @@ export class UserServices {
         return response;
     });
 
-    getOneUser = serviceHandler(async (id: string) => {
+    getOneUser = serviceHandler<string>(async (id) => {
         const response = await axiosInstance.get(`/users/${id}`);
         return response;
     });
 
-    updatePicture = serviceHandler(async (file: any) => {
+    updatePicture = serviceHandler<FormData>(async (file) => {
         const response = await axiosInstance.patch("/users/me/change-picture", file, {
             headers: {
                 "Content-Type": "multipart/form-data",
