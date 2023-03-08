@@ -10,7 +10,7 @@ interface ICommentSectionProps {
 }
 
 export default function CommentsSection({ setShowComments, postId }: ICommentSectionProps) {
-    const { loading, data: comments, err } = useFetch<IComment[]>(`/posts/${postId}/comments`, []);
+    const { loading, data: comments, err } = useFetch<IComment[]>(`/posts/comments/${postId}`, []);
 
     return (
         <div className="overflow-hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-lg w-11/12 h-4/5">
@@ -34,6 +34,7 @@ export default function CommentsSection({ setShowComments, postId }: ICommentSec
                         return <Comment key={cmnt._id} comment={cmnt} />;
                     })
                 )}
+                {err ? <h3 className="text-xl font-medium text-red-600">{err}</h3> : null}
             </div>
 
             {/* Add comment box for user */}
