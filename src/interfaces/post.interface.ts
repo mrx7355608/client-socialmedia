@@ -8,7 +8,7 @@ export interface IPost {
     };
     body: string;
     createdAt: Date;
-    likes: [] | string[];
+    likes: string[];
     comments: [];
     _id: string;
 }
