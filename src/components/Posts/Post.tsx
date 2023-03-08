@@ -21,7 +21,7 @@ export default function Post({ data }: { data: IPost }) {
                         className="w-10 h-10 rounded-full"
                     />
                     <div>
-                        <Link to={"/users/" + postData.author.authorId}>
+                        <Link to={"/users/" + postData.author._id}>
                             <p className="text-gray-800 text-sm font-medium hover:underline">
                                 {postData.author.firstname + " "}
                                 {postData.author.lastname}
@@ -34,7 +34,18 @@ export default function Post({ data }: { data: IPost }) {
                 </div>
 
                 {/* POST BODY */}
-                <p className="mb-5 mt-1">{postData.body}</p>
+                <p className="mb-5 mt-1 break-words">
+                    {postData.body.length < 200
+                        ? postData.body
+                        : postData.body.substring(0, 200) + "..."}
+
+                    {/* Show read more button when body is too long */}
+                    {postData.body.length > 200 ? (
+                        <span className="text-gray-500 font-medium text-sm underline">
+                            Read more
+                        </span>
+                    ) : null}
+                </p>
 
                 {/* NUMBER OF COMMENTS AND LIKES ON POST */}
                 <div className="text-gray-400 mb-2">
