@@ -1,21 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/auth/context";
 import { PostServices } from "@/services/post.services";
 import { BeatLoader } from "react-spinners";
 import LikeButton from "./LikeButton";
 import DislikeButton from "./DislikeButton";
+import { usePost } from "@/contexts/post/context";
 
-interface ILikeComponentProps {
-    postLikes: string[];
-    postId: string;
-    updatePostLikes: () => void;
-}
-
-export default function Like({ postLikes, postId, updatePostLikes }: ILikeComponentProps) {
+export default function Like() {
     const postServices = new PostServices();
     const [loading, setLoading] = useState(false);
-
+    const { post, setPost } = usePost();
     const { state: authState } = useAuth();
+
+    useEffect(() => console.log(post.likes));
 
     async function like(id: string) {
         // TODO: error handling
@@ -24,6 +21,7 @@ export default function Like({ postLikes, postId, updatePostLikes }: ILikeCompon
         setLoading(false);
         updatePostLikes();
     }
+
     return (
         <>
             {loading ? (
@@ -33,11 +31,27 @@ export default function Like({ postLikes, postId, updatePostLikes }: ILikeCompon
                 >
                     <BeatLoader size={8} />
                 </button>
-            ) : postLikes.includes(authState.user?.id as never) ? (
-                <DislikeButton like={like} postId={postId} />
+            ) : post.likes.includes(authState.user?.id as never) ? (
+                <DislikeButton like={like} postId={post._id} />
             ) : (
-                <LikeButton like={like} postId={postId} />
+                <LikeButton like={like} postId={post._id} />
             )}
         </>
     );
+
+    function updatePostLikes() {
+        // TODO: fix `as never`
+        if (!post.likes.includes(authState.user?.id as never)) {
+            console.log("add");
+            return setPost({
+                ...post,
+                likes: [...post.likes, authState.user?.id as string],
+            });
+        }
+        console.log("sub");
+        return setPost({
+            ...post,
+            likes: post.likes.filter((str) => str !== authState.user?.id),
+        });
+    }
 }
