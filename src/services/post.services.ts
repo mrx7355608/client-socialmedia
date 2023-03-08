@@ -19,7 +19,7 @@ export class PostServices {
     });
     commentOnPost = serviceHandler<{ comment: string; postId: string }>(async (data) => {
         const { postId, comment } = data;
-        const response = await axiosInstance.patch(`/posts/comments/${postId}`, { comment });
+        const response = await axiosInstance.patch(`/posts/comment/${postId}`, { comment });
         return response;
     });
 }
