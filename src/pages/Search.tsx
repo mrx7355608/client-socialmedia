@@ -1,16 +1,9 @@
 import UserBoxAnimations from "@/components/SkeletonAnimations/UserBoxAnimations";
+import { ISearchResult } from "interfaces/search.interface";
 import { UserServices } from "@/services/user.services";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link, useLocation } from "react-router-dom";
-
-interface ISearchResult {
-    fullname: string;
-    profilePicture: string;
-    linkToProfile: string;
-    createdAt: Date;
-    _id: string;
-}
 
 export default function SearchPage() {
     const loc = useLocation();
