@@ -24,7 +24,7 @@ export default function AddPost({
     // TODO: add z-index
     return (
         <>
-            <div className="rounded-lg shadow-md flex justify-center items-center bg-white gap-x-2 p-3">
+            <div className="mb-4 rounded-lg shadow-md flex justify-center items-center bg-white gap-x-2 p-3">
                 {/* User Image */}
                 <img src={state.user?.profilePicture} className="rounded-full w-9 h-9 bg-black" />
                 {/* Post toggle */}

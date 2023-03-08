@@ -30,9 +30,11 @@ export default function Home() {
                         </p>
                     }
                 >
-                    {posts.map((post) => {
-                        return <Post key={post._id} data={post} />;
-                    })}
+                    <div className="flex flex-col gap-y-4">
+                        {posts.map((post) => {
+                            return <Post key={post._id} data={post} />;
+                        })}
+                    </div>
                 </InfiniteScroll>
             ) : (
                 <InfiniteScrollLoader />

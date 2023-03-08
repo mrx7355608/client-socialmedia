@@ -12,7 +12,7 @@ export default function Post({ data }: { data: IPost }) {
     const { state } = useAuth();
 
     return (
-        <div className="flex flex-col p-4 pb-2 my-4 rounded-lg shadow-md bg-white">
+        <div className="flex flex-col p-4 pb-2 rounded-lg shadow-md bg-white">
             {/* Author */}
             <div className="flex mb-3 gap-x-2 items-center">
                 <img
