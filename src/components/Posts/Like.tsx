@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "@/contexts/auth/context";
 import { PostServices } from "@/services/post.services";
 import { BeatLoader } from "react-spinners";
@@ -12,14 +12,14 @@ export default function Like() {
     const { post, setPost } = usePost();
     const { state: authState } = useAuth();
 
-    useEffect(() => console.log(post.likes));
-
     async function like(id: string) {
-        // TODO: error handling
         setLoading(true);
         const response = await postServices.likePost(id);
         setLoading(false);
-        updatePostLikes();
+
+        // TODO: replace ``alert`` with toast
+        if (response.success) return updatePostLikes();
+        return alert(response.error);
     }
 
     return (
@@ -40,18 +40,31 @@ export default function Like() {
     );
 
     function updatePostLikes() {
-        // TODO: fix `as never`
-        if (!post.likes.includes(authState.user?.id as never)) {
-            console.log("add");
-            return setPost({
-                ...post,
-                likes: [...post.likes, authState.user?.id as string],
-            });
-        }
-        console.log("sub");
-        return setPost({
+        if (postAlreadyLiked()) return removeLike();
+        return addLike();
+    }
+
+    function postAlreadyLiked(): boolean {
+        const postLikes = post.likes;
+        const userid = authState.user?.id as string;
+        return postLikes.includes(userid) ? true : false;
+    }
+
+    function addLike() {
+        const postLikes = post.likes;
+        const userid = authState.user?.id as string;
+        setPost({
             ...post,
-            likes: post.likes.filter((str) => str !== authState.user?.id),
+            likes: [...postLikes, userid],
+        });
+    }
+
+    function removeLike() {
+        const postLikes = post.likes;
+        const userid = authState.user?.id as string;
+        setPost({
+            ...post,
+            likes: postLikes.filter((str) => str !== userid),
         });
     }
 }
