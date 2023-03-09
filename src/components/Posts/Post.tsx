@@ -9,6 +9,7 @@ import PostContext from "@/contexts/post/context";
 export default function Post({ data }: { data: IPost }) {
     const [showCommentSection, setShowComment] = useState<boolean>(false);
     const [postData, setPost] = useState<IPost>(data);
+    const [readMore, setReadMore] = useState<boolean>(false);
 
     return (
         <PostContext.Provider value={{ post: postData, setPost }}>
@@ -34,18 +35,21 @@ export default function Post({ data }: { data: IPost }) {
                 </div>
 
                 {/* POST BODY */}
-                <p className="mb-5 mt-1 break-words">
-                    {postData.body.length < 200
-                        ? postData.body
-                        : postData.body.substring(0, 200) + "..."}
-
-                    {/* Show read more button when body is too long */}
-                    {postData.body.length > 200 ? (
-                        <span className="text-gray-500 font-medium text-sm underline">
-                            Read more
-                        </span>
-                    ) : null}
-                </p>
+                {postData.body.length < 200 ? (
+                    <p className="mb-5 mt-1 break-words">{postData.body}</p>
+                ) : (
+                    <>
+                        <p className="mb-5 mt-1 break-words">
+                            {readMore ? postData.body : postData.body.substring(0, 200)}
+                            <span
+                                className="underline text-gray-700 font-medium"
+                                onClick={() => setReadMore(!readMore)}
+                            >
+                                {readMore ? "Read less" : "Read more"}
+                            </span>
+                        </p>
+                    </>
+                )}
 
                 {/* NUMBER OF COMMENTS AND LIKES ON POST */}
                 <div className="text-gray-400 mb-2">
