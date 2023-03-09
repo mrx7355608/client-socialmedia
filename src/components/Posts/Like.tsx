@@ -5,21 +5,23 @@ import { BeatLoader } from "react-spinners";
 import LikeButton from "./LikeButton";
 import DislikeButton from "./DislikeButton";
 import { usePost } from "@/contexts/post/context";
+import { useToast } from "@/contexts/toast/context";
 
 export default function Like() {
     const postServices = new PostServices();
     const [loading, setLoading] = useState(false);
     const { post, setPost } = usePost();
     const { state: authState } = useAuth();
+    const { showErrorToast } = useToast();
 
     async function like(id: string) {
         setLoading(true);
-        const response = await postServices.likePost(id);
+        const { success, error } = await postServices.likePost(id);
         setLoading(false);
 
-        // TODO: replace ``alert`` with toast
-        if (response.success) return updatePostLikes();
-        return alert(response.error);
+        if (success) return updatePostLikes();
+        if (error) return showErrorToast(error);
+        return showErrorToast("Something went wrong!");
     }
 
     return (
