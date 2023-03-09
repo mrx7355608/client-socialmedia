@@ -8,8 +8,10 @@ export class PostServices {
         return response;
     });
 
-    createNewPost = serviceHandler<{ body: string }>(async ({ body }) => {
-        const response = await axiosInstance.post("/posts", body);
+    createNewPost = serviceHandler<{ body: string }>(async (data) => {
+        const response = await axiosInstance.post("/posts", {
+            body: data.body,
+        });
         return response;
     });
 
