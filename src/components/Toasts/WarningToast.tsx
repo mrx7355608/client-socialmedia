@@ -7,7 +7,7 @@ export default function WarningToast({ message }: { message: string }) {
                 <IoWarning />
                 <p className="pb-0.5">{message}</p>
             </div>
-            <p className="pb-0.5 ml-9">x</p>
+            <p className="pb-0.5 ml-9"></p>
         </div>
     );
 }

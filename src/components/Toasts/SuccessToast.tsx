@@ -7,7 +7,7 @@ export default function SuccessToast({ message }: { message: string }) {
                 <BsFillCheckCircleFill />
                 <p className="pb-0.5">{message}</p>
             </div>
-            <p className="pb-0.5 ml-9">x</p>
+            <p className="pb-0.5 ml-9"></p>
         </div>
     );
 }
