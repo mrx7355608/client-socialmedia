@@ -1,3 +1,5 @@
+import { IComment } from "@/components/Posts/Comment";
+
 export interface IPost {
     author: {
         _id: string;
@@ -9,6 +11,6 @@ export interface IPost {
     body: string;
     createdAt: Date;
     likes: string[];
-    comments: [];
+    comments: IComment[];
     _id: string;
 }
