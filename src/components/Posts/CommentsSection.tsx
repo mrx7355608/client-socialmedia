@@ -16,11 +16,11 @@ export default function CommentsSection({ setShowComments }: ICommentSectionProp
     const [comments, setCommets] = useState<IComment[]>(data);
 
     useEffect(() => {
-        if (data.length > 1) return setCommets(data);
+        if (data.length > 0) return setCommets(data);
     }, [data]);
 
     return (
-        <div className="overflow-hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-lg w-11/12 h-4/5">
+        <div className="overflow-hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-xl w-11/12 h-4/5">
             {/* Heading / Title */}
             <div className="w-full text-center p-3 shadow-sm flex justify-between bg-gray-800 text-white">
                 <h3 className="font-medium">User 03's Post</h3>
@@ -38,11 +38,13 @@ export default function CommentsSection({ setShowComments }: ICommentSectionProp
                         <CommentAnimation />
                         <CommentAnimation />
                     </>
-                ) : (
-                    // TODO: add pagination (Inifinite scroll component)
+                ) : // TODO: add pagination (Inifinite scroll component)
+                comments.length > 0 ? (
                     comments.map((cmnt) => {
                         return <Comment key={cmnt._id} comment={cmnt} />;
                     })
+                ) : (
+                    <h3 className="font-medium text-gray-500 mt-5 mx-auto">No comments to show</h3>
                 )}
             </div>
 
