@@ -48,7 +48,6 @@ function App() {
                 <Route path="profile" element={<Profile />}>
                     <Route index element={<UserPosts />} />
                     <Route path="friends" element={<UserFriends />} />
-                    <Route path="photos" element={<UserPhotos />} />
                 </Route>
 
                 <Route path="settings">

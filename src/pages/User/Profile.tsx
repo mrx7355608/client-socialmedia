@@ -29,13 +29,6 @@ export default function Profile() {
                     </NavLink>
                     <NavLink
                         end
-                        to="/profile/photos"
-                        className={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-                    >
-                        Photos
-                    </NavLink>
-                    <NavLink
-                        end
                         to="/profile/friends"
                         className={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
                     >
