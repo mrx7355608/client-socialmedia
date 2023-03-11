@@ -1,9 +1,16 @@
+export interface IPendingRequest {
+    friendId: string;
+    firstname: string;
+    profilePicture: string;
+    lastname: string;
+}
+
 // User data interface
 export interface IUser {
     firstname: string;
     lastname: string;
     profilePicture: string;
-    pendingRequests: [];
+    pendingRequests: IPendingRequest[];
     friends: string[];
     _id: string;
 }
