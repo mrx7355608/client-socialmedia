@@ -8,9 +8,11 @@ import { CgProfile } from "react-icons/cg";
 import { BsSearch } from "react-icons/bs";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { IoSettingsOutline } from "react-icons/io5";
+import { useAuth } from "@/contexts/auth/context";
 
 export default function Navbar() {
     const [showSearch, setshowSearch] = useState(false);
+    const { state } = useAuth()
 
     return (
         <>
@@ -47,8 +49,14 @@ export default function Navbar() {
                     </Link>
                 </button>
                 {/* Pending requests */}
-                <button className="flex-1 bg-white py-3 rounded-lg shadow-md">
-                    <HiOutlineUsers size="19px" style={{ margin: "0 auto" }} />
+                <button className="flex-1 bg-white py-3 rounded-lg shadow-md relative">
+                    <Link to="/pending-requests">
+                        <HiOutlineUsers size="19px" style={{ margin: "0 auto" }} />
+                        { state.user?.pendingRequests.length > 0 ?
+                            <span className="inline font-medium font-xs text-gray-700 ml-5 absolute top-1/2 -translate-y-1/2">{state.user?.pendingRequests.length}</span>
+                            : null 
+                        }
+                    </Link>
                 </button>
                 {/* Settings */}
                 <button className="flex-1 bg-white py-3 rounded-lg shadow-md">

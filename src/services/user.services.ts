@@ -47,4 +47,14 @@ export class UserServices {
         const response = await axiosInstance.post(`/users/send-friend-request/${id}`);
         return response
     });
+
+    acceptRequest = serviceHandler<string>(async (id: string) => {
+        const response = await axiosInstance.patch(`/users/me/pending-requests/accept/${id}`);
+        return response;
+    });
+
+    rejectRequest = serviceHandler<string>(async (id: string) => {
+        const response = await axiosInstance.patch(`/users/me/pending-requests/reject/${id}`);
+        return response;
+    });
 }
