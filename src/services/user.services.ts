@@ -42,4 +42,9 @@ export class UserServices {
         });
         return response;
     });
+
+    sendFriendRequest = serviceHandler<string>(async (id: string) => {
+        const response = await axiosInstance.post(`/users/send-friend-request/${id}`);
+        return response
+    });
 }

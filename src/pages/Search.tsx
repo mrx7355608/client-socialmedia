@@ -4,6 +4,8 @@ import { UserServices } from "@/services/user.services";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/auth/context";
+import { useToast } from "@/contexts/toast/context";
 
 export default function SearchPage() {
     const loc = useLocation();
@@ -71,6 +73,20 @@ function InfiniteScrollLoader() {
 }
 
 function User({ user }: { user: ISearchResult }) {
+    const [loading, setLoading] = useState<boolean>(false);
+    const { state: authState } = useAuth();
+    const userServices = new UserServices();
+    const { showSuccessToast, showErrorToast } = useToast()
+
+    async function sendRequest(userId: string) {
+        setLoading(true)
+        const { success, error, data } = await userServices.sendFriendRequest(userId);
+        setLoading(false)
+        if (success) return showSuccessToast(data.message);
+        if (error) return showErrorToast(error);
+        return showErrorToast("An un-expected error occured");
+    }
+
     return (
         <div className="bg-white rounded-lg p-4 my-2 shadow-lg">
             <div className="flex items-center justify-between">
@@ -89,9 +105,19 @@ function User({ user }: { user: ISearchResult }) {
                         <p className="font-medium text-gray-500 text-xs">Tue Feb 3 2021</p>
                     </div>
                 </div>
-                <button className="text-white rounded-md bg-gray-800 p-2 font-medium text-sm">
-                    Add friend
-                </button>
+                {
+                    authState.user?.friends.includes(user._id) 
+                    || authState.user?._id === user._id
+                    ? null :
+                    !loading ? 
+                    <button onClick={async() => await sendRequest(user._id)} className="text-white rounded-md bg-gray-800 p-2 font-medium text-sm">
+                            Add friend
+                            </button>
+                            :
+                            <button className="text-white rounded-md bg-gray-800 p-2 font-medium text-sm">
+                                Sending request... 
+                            </button>
+                }
             </div>
         </div>
     );
