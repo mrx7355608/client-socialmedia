@@ -1,6 +1,8 @@
 import { useAuth } from "@/contexts/auth/context";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
+// TODO: fix "?" in state.user?
+
 export default function Profile() {
     const { state } = useAuth();
 
@@ -15,9 +17,9 @@ export default function Profile() {
                     className="rounded-full w-28 h-28 mx-auto mb-6"
                 />
                 <h3 className="text-center text-xl font-medium text-gray-800">
-                    {state.user?.fullname}
+                    {state.user?.firstname + " "}
+                    {state.user?.lastname}
                 </h3>
-                <p className="text-center text-gray-500 font-medium">zerotwo@life.com</p>
                 <hr className="my-5" />
                 <div>
                     <NavLink

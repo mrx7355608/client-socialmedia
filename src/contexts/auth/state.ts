@@ -1,9 +1,11 @@
 // User data interface
 export interface IUser {
-    fullname: string;
+    firstname: string;
+    lastname: string;
     profilePicture: string;
     pendingRequests: [];
-    id: string;
+    friends: string[];
+    _id: string;
 }
 
 // Auth context interface
