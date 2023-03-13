@@ -1,4 +1,4 @@
-import { IUser } from "./state";
+import { IPendingRequest, IUser } from "./state";
 
 export enum IAuthActionTypes {
     Logout,
@@ -6,6 +6,8 @@ export enum IAuthActionTypes {
     AuthError,
     RequestFinished,
     Login,
+    RequestAccepted,
+    RequestRejected
 }
 
 // Logout action interface
@@ -41,4 +43,18 @@ export interface ILogin {
     };
 }
 
-export type AuthActions = ILogoutAuth | IUserFetchedAuth | IAuthError | IRequestFinished | ILogin;
+export interface IRequestRejected {
+    type: IAuthActionTypes.RequestAccepted,
+    payload: {
+        pendingRequests: IPendingRequest[]
+    }
+}
+
+export interface IRequestAccepted {
+    type: IAuthActionTypes.RequestAccepted,
+    payload: {
+        pendingRequests: IPendingRequest[]
+    }
+}
+
+export type AuthActions = ILogoutAuth | IUserFetchedAuth | IAuthError | IRequestFinished | ILogin | IRequestAccepted | IRequestRejected;

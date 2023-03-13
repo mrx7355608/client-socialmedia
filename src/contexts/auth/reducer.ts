@@ -4,10 +4,12 @@ import {
     IAuthError,
     ILogin,
     ILogoutAuth,
+    IRequestAccepted,
     IRequestFinished,
+    IRequestRejected,
     IUserFetchedAuth,
 } from "./actions";
-import { IAuthState, IUser } from "./state";
+import { IAuthState, IPendingRequest, IUser } from "./state";
 
 export function authReducer(state: IAuthState, action: AuthActions): IAuthState {
     switch (action.type) {
@@ -21,6 +23,11 @@ export function authReducer(state: IAuthState, action: AuthActions): IAuthState 
             return { ...state, user: action.payload.user, isLoading: false };
         case IAuthActionTypes.RequestFinished:
             return { ...state, user: null, isLoading: false };
+        case IAuthActionTypes.RequestAccepted:
+            return { ...state, user: { ...state.user, pendingRequests: action.payload.pendingRequests }}
+        case IAuthActionTypes.RequestRejected:
+            return { ...state, user: { ...state.user, pendingRequests: action.payload.pendingRequests }}
+
 
         default:
             return state;
@@ -61,4 +68,19 @@ export function loginUser(user: IUser): ILogin {
         type: IAuthActionTypes.Login,
         payload: { user },
     };
+}
+
+export function requestAccepted(pendingRequests: IPendingRequest[]): IRequestAccepted {
+    return {
+        type: IAuthActionTypes.RequestAccepted,
+        payload: { pendingRequests }
+    }
+}
+
+
+export function requestRejected(pendingRequests: IPendingRequest[]): IRequestRejected {
+    return {
+        type: IAuthActionTypes.RequestRejected,
+        payload: { pendingRequests }
+    }
 }
