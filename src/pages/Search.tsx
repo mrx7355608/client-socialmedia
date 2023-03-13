@@ -1,37 +1,17 @@
 import UserBoxAnimations from "@/components/SkeletonAnimations/UserBoxAnimations";
 import { ISearchResult } from "interfaces/search.interface";
 import { UserServices } from "@/services/user.services";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/auth/context";
 import { useToast } from "@/contexts/toast/context";
+import useSearch from "@/hooks/useSearch";
 
 export default function SearchPage() {
-    const loc = useLocation();
-    const userServices = new UserServices();
-
-    const [page, setPage] = useState(1);
-    const [isMoreContent, setMoreContent] = useState(true);
-    const [searchResults, setResults] = useState<ISearchResult[]>([]);
-    const [err, setError] = useState<string>("");
-
-    useEffect(
-        function () {
-            const searchQuery = new URLSearchParams(loc.search).get("user") as string;
-            const url = `/users/search?user=${searchQuery}&page=${page}`;
-
-            (async function () {
-                const { success, data, error } = await userServices.search(url);
-                if (error) return setError(error);
-                if (success) {
-                    if (data.length < 10) setMoreContent(false);
-                    return setResults([...searchResults, ...data]);
-                }
-            })();
-        },
-        [page]
-    );
+    const loc = useLocation()
+    const [page, setPage] = useState<number>(1);
+    const { isMoreContent, searchResults, err } = useSearch(page);
 
     return (
         <>
@@ -45,7 +25,13 @@ export default function SearchPage() {
                     dataLength={searchResults.length}
                     next={() => setPage(page + 1)}
                     hasMore={isMoreContent}
-                    loader={<InfiniteScrollLoader />}
+                    loader={
+                        <>
+                            <UserBoxAnimations />
+                            <UserBoxAnimations />
+                            <UserBoxAnimations />
+                        </>
+                    }
                     scrollThreshold={0.9}
                     endMessage={
                         <p className="text-gray-400 text-center font-medium">
@@ -62,16 +48,7 @@ export default function SearchPage() {
     );
 }
 
-function InfiniteScrollLoader() {
-    return (
-        <>
-            <UserBoxAnimations />
-            <UserBoxAnimations />
-            <UserBoxAnimations />
-        </>
-    );
-}
-
+// User component
 function User({ user }: { user: ISearchResult }) {
     const [loading, setLoading] = useState<boolean>(false);
     const { state: authState } = useAuth();
