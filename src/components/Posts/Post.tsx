@@ -29,14 +29,14 @@ export default function Post({ data }: { data: IPost }) {
                             </p>
                         </Link>
                         <p className="text-xs font-medium text-gray-500">
-                            {new Date(postData.createdAt).toDateString()}
+                            Posted on {new Date(postData.createdAt).toDateString()}
                         </p>
                     </div>
                 </div>
 
                 {/* POST BODY */}
                 {postData.body.length < 200 ? (
-                    <p className="mb-5 mt-1 break-words">{postData.body}</p>
+                    <p className="mb-5 mt-1 break-words whitespace-pre-wrap">{postData.body}</p>
                 ) : (
                     <>
                         <p className="mb-5 mt-1 break-words">
