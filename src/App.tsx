@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useAuth } from "./contexts/auth/context";
 // Layouts
 import AuthForms from "@/layouts/AuthForms";
@@ -21,7 +21,6 @@ import UpdateProfilePicture from "@/pages/User/UpdateProfilePicture";
 import useUserData from "@/hooks/useUserData";
 import Spinner from "@/components/Spinner";
 import UserPosts from "@/pages/User/UserPosts";
-import UserPhotos from "@/pages/User/UserPhotos";
 import UserFriends from "@/pages/User/UserFriends";
 import SearchPage from "@/pages/Search";
 import OneUser from "./pages/User/OneUser";
