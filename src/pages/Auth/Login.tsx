@@ -74,7 +74,7 @@ export default function Login() {
             </button>
 
             {/* login as guest btn */}
-            <button className="text-gray-900 flex items-center justify-center py-2 border-2 border-gray-900 text-md w-full rounded-md bg-transparent font-medium">
+            <button onClick={guestLogin} className="text-gray-900 flex items-center justify-center py-2 border-2 border-gray-900 text-md w-full rounded-md bg-transparent font-medium">
                 <span>Continue as Guest</span>
             </button>
         </div>
@@ -98,4 +98,18 @@ export default function Login() {
         dispatch(loginUser(response.data as IUser));
         return navigateTo("/");
     }
+
+    async function guestLogin () {
+        const response = await authServices.loginAsGuest();
+        if  (response.error) {
+            setError(response.error);
+            return setTimeout(() => setError(""), 7000);
+        }
+        if (response.success) {
+            dispatch(loginUser(response.data as IUser))
+            return navigateTo("/");
+        }
+        return setError("An un-expected error occured")
+    }
+
 }
