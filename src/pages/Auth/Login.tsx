@@ -35,10 +35,14 @@ export default function Login() {
                 placeholder="Password"
                 onChangeHandler={onChangeHandler}
             />
-            <p className="underline mb-6 text-sm">Forgot Password?</p>
+            <p className="underline mb-6 mt-1 text-sm">
+                <Link to="/auth/forgot-password">Forgot Password?</Link>
+            </p>
+
+            {/* Login button */}
             {!loading ? (
                 <button
-                    onClick={async () => await onClickHandler()}
+                    onClick={async () => await userLogin()}
                     className="py-2 text-md w-full rounded-md bg-gray-900 text-white font-medium"
                 >
                     Login
@@ -51,6 +55,7 @@ export default function Login() {
                     <BeatLoader size={8} color="white" />
                 </button>
             )}
+
             {/* Divider */}
             <hr className="my-5 bg-gray-900" />
 
@@ -86,7 +91,7 @@ export default function Login() {
         setLoginData({ ...loginData, [name]: value });
     }
 
-    async function onClickHandler() {
+    async function userLogin() {
         setLoading(true);
         const response = await authServices.login(loginData);
         setLoading(false);
@@ -95,14 +100,15 @@ export default function Login() {
             return setTimeout(() => setError(""), 7000);
         }
 
-        // Redirect to homepage on successfull login
+        // Set user in state
         dispatch(loginUser(response.data as IUser));
+        // Redirect to homepage on successfull login
         return navigateTo("/");
     }
 
     async function guestLogin () {
         setGuestLoading(true);
-        const response = await authServices.loginAsGuest();
+        const response = await authServices.loginAsGuest(null);
         setGuestLoading(false);
         if  (response.error) {
             setError(response.error);
