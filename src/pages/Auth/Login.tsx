@@ -13,6 +13,7 @@ export default function Login() {
     const navigateTo = useNavigate();
     const { dispatch } = useAuth();
     const [error, setError] = React.useState<string>("");
+    const [guestLoading, setGuestLoading] = React.useState<boolean>(false);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [loginData, setLoginData] = React.useState({
         email: "",
@@ -75,7 +76,7 @@ export default function Login() {
 
             {/* login as guest btn */}
             <button onClick={guestLogin} className="text-gray-900 flex items-center justify-center py-2 border-2 border-gray-900 text-md w-full rounded-md bg-transparent font-medium">
-                <span>Continue as Guest</span>
+                 <span>{ guestLoading ? <BeatLoader size={8} /> : "Continue as Guest" }</span> 
             </button>
         </div>
     );
@@ -100,7 +101,9 @@ export default function Login() {
     }
 
     async function guestLogin () {
+        setGuestLoading(true);
         const response = await authServices.loginAsGuest();
+        setGuestLoading(false);
         if  (response.error) {
             setError(response.error);
             return setTimeout(() => setError(""), 7000);
