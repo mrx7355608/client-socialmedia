@@ -1,10 +1,15 @@
 import axiosInstance from "../axiosInstance";
 import serviceHandler from "./serviceHandler";
-import { config } from "../../config/config.ts";
+import { config } from "../../config/config";
 
 interface ILoginData {
     email: string;
     password: string;
+}
+interface ISignupData extends ILoginData {
+    firstname: string;
+    lastname: string;
+    confirmPassword: string
 }
 
 export class AuthServices {
@@ -21,6 +26,11 @@ export class AuthServices {
         const response = await axiosInstance.post("/auth/login", guestCreds);
         return response;
     });
+
+    signup = serviceHandler<ISignupData>(async (signupData) => {
+        const response =  await axiosInstance.post("/auth/signup", signupData);
+        return response;
+    })
 
 
     logout = serviceHandler(async () => {
