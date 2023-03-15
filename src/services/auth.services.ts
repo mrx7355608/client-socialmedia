@@ -37,4 +37,15 @@ export class AuthServices {
         const response = await axiosInstance.post("/auth/logout");
         return response;
     });
+
+    forgotPassword = serviceHandler<string>(async (email: string) => {
+        const response = await axiosInstance.post("/auth/forgot-password", { email });
+        return response;
+    })
+
+    resetPassword = serviceHandler<{ token: string | undefined | null, password: string, confirmPassword: string }>(
+        async ({ token, password, confirmPassword }) => {
+            const response = await axiosInstance.patch(`/auth/reset-password?token=${token}`, { password, confirmPassword });
+            return response;
+    })
 }
